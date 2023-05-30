@@ -1,5 +1,6 @@
 package pl.edu.pwr.student.zombiesim.simulation.map;
 
+import pl.edu.pwr.student.zombiesim.ZombieSimulation;
 import pl.edu.pwr.student.zombiesim.simulation.entity.manager.AbstractEntityManager;
 import pl.edu.pwr.student.zombiesim.simulation.entity.human.Human;
 import pl.edu.pwr.student.zombiesim.simulation.entity.human.HumanManager;
@@ -10,6 +11,8 @@ import pl.edu.pwr.student.zombiesim.simulation.entity.zombie.ZombieManager;
 
 public class SimulationArea {
 
+    private final ZombieSimulation zombieSimulation;
+
     private final AbstractEntityManager<Human> humanManager = new HumanManager();
     private final AbstractEntityManager<Zombie> zombieManager = new ZombieManager();
 
@@ -18,7 +21,9 @@ public class SimulationArea {
     private final int simulationSizeX;
     private final int simulationSizeY;
 
-    public SimulationArea(int simulationSizeX, int simulationSizeY) {
+    public SimulationArea(int simulationSizeX, int simulationSizeY, ZombieSimulation zombieSimulation) {
+        this.zombieSimulation = zombieSimulation;
+
         this.simulationSizeX = simulationSizeX;
         this.simulationSizeY = simulationSizeY;
 
@@ -32,7 +37,7 @@ public class SimulationArea {
             }
         }
 
-        EngineerHuman engineerHuman = new EngineerHuman(this.getHumanManager().getNextId());
+        EngineerHuman engineerHuman = new EngineerHuman(this.getHumanManager().getNextId(), zombieSimulation);
         this.getHumanManager().addEntity(engineerHuman);
     }
 

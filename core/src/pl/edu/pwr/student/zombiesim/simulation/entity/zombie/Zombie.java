@@ -2,10 +2,11 @@ package pl.edu.pwr.student.zombiesim.simulation.entity.zombie;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import pl.edu.pwr.student.zombiesim.ZombieSimulation;
 import pl.edu.pwr.student.zombiesim.simulation.entity.AbstractEntity;
 import pl.edu.pwr.student.zombiesim.simulation.entity.Gender;
 import pl.edu.pwr.student.zombiesim.simulation.map.Location;
-import pl.edu.pwr.student.zombiesim.simulation.Textures;
+import pl.edu.pwr.student.zombiesim.simulation.ui.Textures;
 
 public abstract class Zombie extends AbstractEntity {
 
@@ -21,8 +22,8 @@ public abstract class Zombie extends AbstractEntity {
 
     private Location location = new Location(69, 69);
 
-    public Zombie(Integer id) {
-        super(id);
+    public Zombie(Integer id, ZombieSimulation zombieSimulation) {
+        super(id, zombieSimulation);
     }
 
     @Override

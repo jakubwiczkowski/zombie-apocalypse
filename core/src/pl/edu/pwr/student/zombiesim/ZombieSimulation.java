@@ -3,94 +3,68 @@ package pl.edu.pwr.student.zombiesim;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import pl.edu.pwr.student.zombiesim.simulation.Textures;
-import pl.edu.pwr.student.zombiesim.simulation.input.MainInputProcessor;
-import pl.edu.pwr.student.zombiesim.simulation.map.Ground;
-import pl.edu.pwr.student.zombiesim.simulation.map.Location;
 import pl.edu.pwr.student.zombiesim.simulation.map.SimulationArea;
+import pl.edu.pwr.student.zombiesim.simulation.ui.entityLookup.EntityHoverStage;
+import pl.edu.pwr.student.zombiesim.simulation.ui.game.GameStage;
 
 public class ZombieSimulation extends ApplicationAdapter {
 
-    private Stage mainStage;
+    private GameStage gameStage;
+    private EntityHoverStage entityHoverStage;
 
     private SimulationArea simulationArea;
 
-    private OrthographicCamera camera;
-    private Batch batch;
+    private InputMultiplexer mainInputMultiplexer;
 
-    private float worldWidth;
-    private float worldHeight;
-
-    private final MainInputProcessor mainInputProcessor = new MainInputProcessor(this);
-    private InputMultiplexer inputMultiplexer;
+    private int round = 0;
 
     @Override
     public void create() {
-        this.simulationArea = new SimulationArea(100, 50);
+        this.simulationArea = new SimulationArea(50, 50, this);
 
-        this.mainStage = new Stage(new ScreenViewport());
-        this.inputMultiplexer = new InputMultiplexer(this.mainStage, this.mainInputProcessor);
+        this.gameStage = new GameStage(this);
+        this.gameStage.getMainInputProcessor().updateCamera();
 
-        Gdx.input.setInputProcessor(this.inputMultiplexer);
+        this.entityHoverStage = new EntityHoverStage(this);
 
-        this.worldWidth = this.simulationArea.getSimulationSizeX() * Textures.GRASS_TEXTURE.getWidth();
-        this.worldHeight = this.simulationArea.getSimulationSizeY() * Textures.GRASS_TEXTURE.getHeight();
+        this.mainInputMultiplexer = new InputMultiplexer(
+                this.gameStage.getGameAreaInputMultiplexer(),
+                this.entityHoverStage.getInputMultiplexer());
 
-        float width = Gdx.graphics.getWidth();
-        float height = Gdx.graphics.getHeight();
+        Gdx.input.setInputProcessor(this.mainInputMultiplexer);
 
-        this.camera = (OrthographicCamera) this.mainStage.getCamera();
-        this.camera.setToOrtho(false, worldWidth, worldWidth * (height / width));
-        this.camera.position.set(width / 2, height / 2, 0);
 
-        this.mainInputProcessor.updateCamera();
 
-        System.out.println(this.camera.viewportWidth);
-        System.out.println(this.camera.viewportHeight);
+//        this.simulationArea.getHumanManager()
+//                .getEntities()
+//                .forEach(human -> {
+//                    this.mainStage.addActor(human);
+//                });
 
-        this.batch = this.mainStage.getBatch();
 
-        this.simulationArea.getHumanManager()
-                .getEntities()
-                .forEach(human -> {
-                    this.mainStage.addActor(human);
-                });
     }
 
     @Override
     public void render() {
-        this.camera.update();
+        this.gameStage.getCamera().update();
+        this.entityHoverStage.getCamera().update();
         float delta = Gdx.graphics.getDeltaTime();
 
         ScreenUtils.clear(1, 1, 1, 1);
 
-        batch.setProjectionMatrix(camera.combined);
+        this.gameStage.act(delta);
+        this.gameStage.draw();
 
-        this.mainStage.act(delta);
-
-        for (int x = 0; x < this.simulationArea.getSimulationSizeX(); x++) {
-            for (int y = 0; y < this.simulationArea.getSimulationSizeY(); y++) {
-                Ground ground = this.simulationArea.getGroundAt(new Location(x, y));
-                Texture texture = ground == Ground.GRASS ? Textures.GRASS_TEXTURE : Textures.WATER_TEXTURE;
-
-                this.batch.begin();
-                this.batch.draw(texture, x * texture.getWidth(), y * texture.getHeight());
-                this.batch.end();
-            }
-        }
-
-        this.mainStage.getActors().forEach(actor -> actor.draw(this.batch, 0.0f));
+        this.entityHoverStage.act(delta);
+        this.entityHoverStage.draw();
     }
 
     @Override
     public void dispose() {
-        batch.dispose();
+        this.gameStage.getBatch().dispose();
+        this.gameStage.dispose();
     }
 
     @Override
@@ -112,15 +86,11 @@ public class ZombieSimulation extends ApplicationAdapter {
         return simulationArea;
     }
 
-    public float getWorldHeight() {
-        return worldHeight;
+    public GameStage getGameStage() {
+        return gameStage;
     }
 
-    public float getWorldWidth() {
-        return worldWidth;
-    }
-
-    public Stage getMainStage() {
-        return mainStage;
+    public EntityHoverStage getEntityHoverStage() {
+        return entityHoverStage;
     }
 }

@@ -1,4 +1,4 @@
-package pl.edu.pwr.student.zombiesim.simulation;
+package pl.edu.pwr.student.zombiesim.simulation.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

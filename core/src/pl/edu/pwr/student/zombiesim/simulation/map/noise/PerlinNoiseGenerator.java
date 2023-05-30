@@ -16,8 +16,6 @@
 
 package pl.edu.pwr.student.zombiesim.simulation.map.noise;
 
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.math.MathUtils;
 
 /**
