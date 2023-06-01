@@ -11,7 +11,7 @@ public class DesktopLauncher {
 		config.useVsync(true);
 		config.setWindowedMode(1280, 720);
 		config.setResizable(false);
-		config.setTitle("Left4Dziekan");
+		config.setTitle("Zombie Apocalypse Simulation");
 
 		new Lwjgl3Application(new ZombieSimulation(), config);
 	}

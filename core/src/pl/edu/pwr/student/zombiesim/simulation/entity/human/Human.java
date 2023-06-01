@@ -52,11 +52,6 @@ public abstract class Human extends AbstractEntity {
         batch.draw(this.texture,
                 this.location.x() * getTexture().getWidth(),
                 this.location.y() * getTexture().getHeight());
-
-        Fonts.MAIN_FONT.draw(batch,
-                "Dziekan: " + getIdentifier().toString(),
-                (this.location.x() + 1) * getTexture().getWidth(),
-                (this.location.y() + 1) * getTexture().getHeight());
     }
 
     public abstract void specialAbility();
