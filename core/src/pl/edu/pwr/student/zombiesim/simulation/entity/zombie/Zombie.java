@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import pl.edu.pwr.student.zombiesim.ZombieSimulation;
 import pl.edu.pwr.student.zombiesim.simulation.entity.AbstractEntity;
+import pl.edu.pwr.student.zombiesim.simulation.entity.EntityInputListener;
 import pl.edu.pwr.student.zombiesim.simulation.entity.Gender;
 import pl.edu.pwr.student.zombiesim.simulation.map.Location;
 import pl.edu.pwr.student.zombiesim.simulation.ui.Textures;
@@ -24,6 +25,18 @@ public abstract class Zombie extends AbstractEntity {
 
     public Zombie(Integer id, ZombieSimulation zombieSimulation) {
         super(id, zombieSimulation);
+    }
+
+    public Zombie(Integer id, ZombieSimulation zombieSimulation, double health, double strength, double regeneration, double agility, double infectionRate) {
+        super(id, zombieSimulation);
+
+        this.health = health;
+        this.strength =  strength;
+        this.regeneration = regeneration;
+        this.agility = agility;
+        this.infectionRate = infectionRate;
+
+        addListener(new EntityInputListener(this));
     }
 
     @Override

@@ -7,6 +7,10 @@ public class RegularHuman extends Human {
     public RegularHuman(Integer id, ZombieSimulation zombieSimulation) {
         super(id, zombieSimulation);
     }
+
+    public RegularHuman(Integer id, ZombieSimulation zombieSimulation, double health, double strength, double regeneration, double agility, double intelligence) {
+        super(id, zombieSimulation, health, strength, regeneration, agility, intelligence);
+    }
     @Override
     public void specialAbility() {
 

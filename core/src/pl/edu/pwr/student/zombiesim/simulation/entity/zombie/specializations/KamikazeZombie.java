@@ -7,6 +7,10 @@ public class KamikazeZombie extends Zombie {
     public KamikazeZombie(Integer id, ZombieSimulation zombieSimulation) {
         super(id, zombieSimulation);
     }
+
+    public KamikazeZombie(Integer id, ZombieSimulation zombieSimulation, double health, double strength, double regeneration, double agility, double infectionRate) {
+        super(id, zombieSimulation, health, strength, regeneration, agility, infectionRate);
+    }
     @Override
     public void specialAbility() {
 

@@ -32,6 +32,18 @@ public abstract class Human extends AbstractEntity {
         addListener(new EntityInputListener(this));
     }
 
+    public Human(Integer id, ZombieSimulation zombieSimulation, double health, double strength, double regeneration, double agility, double intelligence) {
+        super(id, zombieSimulation);
+
+        this.health = health;
+        this.strength =  strength;
+        this.regeneration = regeneration;
+        this.agility = agility;
+        this.intelligence = intelligence;
+
+        addListener(new EntityInputListener(this));
+    }
+
     @Override
     public Texture getTexture() {
         return this.texture;
