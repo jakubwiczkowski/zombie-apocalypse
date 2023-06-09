@@ -4,7 +4,6 @@ import pl.edu.pwr.student.zombiesim.ZombieSimulation;
 import pl.edu.pwr.student.zombiesim.simulation.entity.manager.AbstractEntityManager;
 import pl.edu.pwr.student.zombiesim.simulation.entity.human.Human;
 import pl.edu.pwr.student.zombiesim.simulation.entity.human.HumanManager;
-import pl.edu.pwr.student.zombiesim.simulation.entity.human.specializations.EngineerHuman;
 import pl.edu.pwr.student.zombiesim.simulation.map.noise.PerlinNoiseGenerator;
 import pl.edu.pwr.student.zombiesim.simulation.entity.zombie.Zombie;
 import pl.edu.pwr.student.zombiesim.simulation.entity.zombie.ZombieManager;
@@ -36,9 +35,6 @@ public class SimulationArea {
                 ground[i][j] = noise[i][j] >= 0.4 ? Ground.GRASS : Ground.WATER;
             }
         }
-
-        EngineerHuman engineerHuman = new EngineerHuman(this.getHumanManager().getNextId(), zombieSimulation);
-        this.getHumanManager().addEntity(engineerHuman);
     }
 
     public AbstractEntityManager<Human> getHumanManager() {
