@@ -4,13 +4,20 @@ import pl.edu.pwr.student.zombiesim.ZombieSimulation;
 import pl.edu.pwr.student.zombiesim.simulation.entity.human.Human;
 import pl.edu.pwr.student.zombiesim.simulation.entity.human.HumanManager;
 import pl.edu.pwr.student.zombiesim.simulation.entity.human.specializations.RegularHuman;
+import pl.edu.pwr.student.zombiesim.simulation.entity.human.specializations.ShooterHuman;
+import pl.edu.pwr.student.zombiesim.simulation.entity.human.specializations.StudentHuman;
+import pl.edu.pwr.student.zombiesim.simulation.entity.human.specializations.WarriorHuman;
 import pl.edu.pwr.student.zombiesim.simulation.entity.manager.AbstractEntityManager;
 import pl.edu.pwr.student.zombiesim.simulation.entity.zombie.Zombie;
 import pl.edu.pwr.student.zombiesim.simulation.entity.zombie.ZombieManager;
+import pl.edu.pwr.student.zombiesim.simulation.entity.zombie.specializations.ChubbyZombie;
+import pl.edu.pwr.student.zombiesim.simulation.entity.zombie.specializations.KamikazeZombie;
 import pl.edu.pwr.student.zombiesim.simulation.entity.zombie.specializations.RegularZombie;
 import pl.edu.pwr.student.zombiesim.simulation.map.noise.PerlinNoiseGenerator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class SimulationArea {
 
@@ -29,16 +36,20 @@ public class SimulationArea {
         this.simulationSizeY = simulationSizeY;
 
         this.ground = new Ground[simulationSizeX][simulationSizeY];
-
         float[][] noise = PerlinNoiseGenerator.generatePerlinNoise(this.simulationSizeX, this.simulationSizeY, 4);
+
+        List<Location> groundLocations = new ArrayList<>();
 
         for (int i = 0; i < this.simulationSizeX; i++) {
             for (int j = 0; j < this.simulationSizeY; j++) {
                 ground[i][j] = noise[i][j] >= 0.4 ? Ground.GRASS : Ground.WATER;
+
+                if (ground[i][j] == Ground.GRASS)
+                    groundLocations.add(new Location(i, j));
             }
         }
 
-        populate(20, 20);
+        populate(20, 20, groundLocations);
     }
 
     public AbstractEntityManager<Human> getHumanManager() {
@@ -65,39 +76,48 @@ public class SimulationArea {
         return this.ground[location.x()][location.y()];
     }
 
-    public void populate(int humanCount, int zombieCount) {
-        List<Location> groundLocations = new ArrayList<>();
-
-        for (int i = 0; i < this.simulationSizeX; i++) {
-            for (int j = 0; j < this.simulationSizeY; j++) {
-                Location currLoc = new Location(i, j);
-
-                if (getGroundAt(currLoc) != Ground.GRASS)
-                    continue;
-
-                groundLocations.add(currLoc);
-            }
-        }
+    private void populate(int humanCount, int zombieCount, List<Location> groundLocations) {
 
         for (int i = 0; i < humanCount; i++) {
             int idx = random.nextInt(groundLocations.size());
 
-            RegularHuman human = new RegularHuman(this.getHumanManager().getNextId(), ZombieSimulation.getInstance());
+            Human human;
+
+            int humanType = random.nextInt(4);
+
+            if (humanType == 0)
+                human = new RegularHuman(this.getHumanManager().getNextId(), ZombieSimulation.getInstance());
+            else if (humanType == 1)
+                human = new ShooterHuman(this.getHumanManager().getNextId(), ZombieSimulation.getInstance());
+            else if (humanType == 2)
+                human = new StudentHuman(this.getHumanManager().getNextId(), ZombieSimulation.getInstance());
+            else
+                human = new WarriorHuman(this.getHumanManager().getNextId(), ZombieSimulation.getInstance());
+
             this.getHumanManager().addEntity(human);
             human.setLocation(groundLocations.get(idx));
-
             groundLocations.remove(idx);
         }
 
         for (int i = 0; i < zombieCount; i++) {
             int idx = random.nextInt(groundLocations.size());
 
-            RegularZombie zombie = new RegularZombie(this.getZombieManager().getNextId(), ZombieSimulation.getInstance());
+            Zombie zombie;
+
+            int zombieType = random.nextInt(3);
+
+            if (zombieType == 0)
+                zombie = new ChubbyZombie(this.getHumanManager().getNextId(), ZombieSimulation.getInstance());
+            else if (zombieType == 1)
+                zombie = new KamikazeZombie(this.getHumanManager().getNextId(), ZombieSimulation.getInstance());
+            else
+                zombie = new RegularZombie(this.getHumanManager().getNextId(), ZombieSimulation.getInstance());
+
             this.getZombieManager().addEntity(zombie);
             zombie.setLocation(groundLocations.get(idx));
-
             groundLocations.remove(idx);
         }
+
     }
 
     public void act() {
