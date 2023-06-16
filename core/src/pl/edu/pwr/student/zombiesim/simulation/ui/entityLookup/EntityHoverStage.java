@@ -9,12 +9,17 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import pl.edu.pwr.student.zombiesim.ZombieSimulation;
 import pl.edu.pwr.student.zombiesim.simulation.entity.AbstractEntity;
+import pl.edu.pwr.student.zombiesim.simulation.entity.human.Human;
+import pl.edu.pwr.student.zombiesim.simulation.entity.zombie.Zombie;
 import pl.edu.pwr.student.zombiesim.simulation.ui.Fonts;
 
 public class EntityHoverStage extends Stage {
 
     private static final float SIDEBAR_WIDTH = 200;
-    private static final float SIDEBAR_HEIGHT = 320;
+    private static final float SIDEBAR_HEIGHT = 280;
+
+    private static final float ICON_OFFSET_TOP = 32 * 3 + 10;
+    private static final float TEXT_HEIGHT = 20;
 
     private final ZombieSimulation zombieSimulation;
 
@@ -63,9 +68,35 @@ public class EntityHoverStage extends Stage {
 
         getBatch().begin();
 
-        getBatch().draw(abstractEntity.getTexture(), 84, 280);
+        getBatch().draw(abstractEntity.getTexture(),
+                (SIDEBAR_WIDTH / 2) - (abstractEntity.getTexture().getWidth() * 3) / 2,
+                SIDEBAR_HEIGHT - ICON_OFFSET_TOP,
+                abstractEntity.getTexture().getWidth() * 3,
+                abstractEntity.getTexture().getHeight() * 3);
 
-        Fonts.MAIN_FONT.draw(getBatch(), "Ludzik ID: " + abstractEntity.getIdentifier().toString(), 40, 280);
+        if (abstractEntity instanceof Zombie) {
+            Zombie zombie = (Zombie) abstractEntity;
+
+            Fonts.MAIN_FONT.draw(getBatch(), "ZOM: " + zombie.getIdentifier().toString(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP);
+
+            Fonts.MAIN_FONT.draw(getBatch(), "HP:  " + zombie.getHealth(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT);
+            Fonts.MAIN_FONT.draw(getBatch(), "STR: " + zombie.getStrength(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 2);
+            Fonts.MAIN_FONT.draw(getBatch(), "REG: " + zombie.getRegeneration(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 3);
+            Fonts.MAIN_FONT.draw(getBatch(), "AG:  " + zombie.getAgility(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 4);
+            Fonts.MAIN_FONT.draw(getBatch(), "IR:  " + zombie.getInfectionRate(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 5);
+        } else {
+            Human human = (Human) abstractEntity;
+
+            Fonts.MAIN_FONT.draw(getBatch(), "HUM: " + human.getIdentifier().toString(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP);
+
+            Fonts.MAIN_FONT.draw(getBatch(), "HP:  " + human.getHealth(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT);
+            Fonts.MAIN_FONT.draw(getBatch(), "STR: " + human.getStrength(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 2);
+            Fonts.MAIN_FONT.draw(getBatch(), "REG: " + human.getRegeneration(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 3);
+            Fonts.MAIN_FONT.draw(getBatch(), "AG:  " + human.getAgility(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 4);
+            Fonts.MAIN_FONT.draw(getBatch(), "INT: " + human.getIntelligence(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 5);
+        }
+
+        Fonts.MAIN_FONT.draw(getBatch(), "ROUND:  " + ZombieSimulation.getInstance().getRound(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 7);
 
         getBatch().end();
     }

@@ -1,15 +1,17 @@
 package pl.edu.pwr.student.zombiesim;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import pl.edu.pwr.student.zombiesim.simulation.map.SimulationArea;
 import pl.edu.pwr.student.zombiesim.simulation.ui.entityLookup.EntityHoverStage;
 import pl.edu.pwr.student.zombiesim.simulation.ui.game.GameStage;
 
-public class ZombieSimulation extends ApplicationAdapter {
+public class ZombieSimulation extends Game {
+
+    private static ZombieSimulation INSTANCE;
 
     private GameStage gameStage;
     private EntityHoverStage entityHoverStage;
@@ -22,7 +24,9 @@ public class ZombieSimulation extends ApplicationAdapter {
 
     @Override
     public void create() {
-        this.simulationArea = new SimulationArea(50, 50, this);
+        INSTANCE = this;
+
+        this.simulationArea = new SimulationArea(50, 50);
 
         this.gameStage = new GameStage(this);
         this.gameStage.getMainInputProcessor().updateCamera();
@@ -34,7 +38,6 @@ public class ZombieSimulation extends ApplicationAdapter {
                 this.entityHoverStage.getInputMultiplexer());
 
         Gdx.input.setInputProcessor(this.mainInputMultiplexer);
-
 
 
 //        this.simulationArea.getHumanManager()
@@ -92,5 +95,19 @@ public class ZombieSimulation extends ApplicationAdapter {
 
     public EntityHoverStage getEntityHoverStage() {
         return entityHoverStage;
+    }
+
+    public void nextRound() {
+        round++;
+
+        this.simulationArea.act();
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public static ZombieSimulation getInstance() {
+        return INSTANCE;
     }
 }
