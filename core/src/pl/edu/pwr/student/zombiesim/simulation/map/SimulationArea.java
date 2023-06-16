@@ -21,16 +21,31 @@ public class SimulationArea {
 
     private final Ground[][] ground;
 
+    ArrayList<ArrayList<Integer>> groundCoordinates;
+
     private final int simulationSizeX;
     private final int simulationSizeY;
 
+    @SuppressWarnings("EqualsBetweenInconvertibleTypes")
     public SimulationArea(int simulationSizeX, int simulationSizeY) {
         this.simulationSizeX = simulationSizeX;
         this.simulationSizeY = simulationSizeY;
 
         this.ground = new Ground[simulationSizeX][simulationSizeY];
+        this.groundCoordinates = new ArrayList<>(simulationSizeX);
 
         float[][] noise = PerlinNoiseGenerator.generatePerlinNoise(this.simulationSizeX, this.simulationSizeY, 4);
+
+        groundCoordinates = getGroundCoordinates(simulationSizeX, simulationSizeY, noise);
+
+        List<Location> groundLocation = new ArrayList<>();
+
+        for (int x = 0; x < getSimulationSizeX(); x++) {
+            for (int y = 0; y < simulationSizeY; y++) {
+                if (groundCoordinates.get(x).contains(y))
+                    groundLocation.add(new Location(x, y));
+            }
+        }
 
         for (int i = 0; i < this.simulationSizeX; i++) {
             for (int j = 0; j < this.simulationSizeY; j++) {
@@ -38,7 +53,7 @@ public class SimulationArea {
             }
         }
 
-        populate(20, 20);
+        populate(20, 20, groundLocation);
     }
 
     public AbstractEntityManager<Human> getHumanManager() {
@@ -65,39 +80,54 @@ public class SimulationArea {
         return this.ground[location.x()][location.y()];
     }
 
-    public void populate(int humanCount, int zombieCount) {
-        List<Location> groundLocations = new ArrayList<>();
-
-        for (int i = 0; i < this.simulationSizeX; i++) {
-            for (int j = 0; j < this.simulationSizeY; j++) {
-                Location currLoc = new Location(i, j);
-
-                if (getGroundAt(currLoc) != Ground.GRASS)
-                    continue;
-
-                groundLocations.add(currLoc);
-            }
-        }
+    private void populate(int humanCount, int zombieCount, List<Location> groundLocation) {
 
         for (int i = 0; i < humanCount; i++) {
-            int idx = random.nextInt(groundLocations.size());
+
+            int random = getRandomNumber(groundLocation);
 
             RegularHuman human = new RegularHuman(this.getHumanManager().getNextId(), ZombieSimulation.getInstance());
             this.getHumanManager().addEntity(human);
-            human.setLocation(groundLocations.get(idx));
-
-            groundLocations.remove(idx);
+            human.setLocation(groundLocation.get(random));
+            groundLocation.remove(random);
         }
 
         for (int i = 0; i < zombieCount; i++) {
-            int idx = random.nextInt(groundLocations.size());
 
-            RegularZombie zombie = new RegularZombie(this.getZombieManager().getNextId(), ZombieSimulation.getInstance());
+            int random = getRandomNumber(groundLocation);
+
+            RegularZombie zombie = new RegularZombie(this.getHumanManager().getNextId(), ZombieSimulation.getInstance());
             this.getZombieManager().addEntity(zombie);
-            zombie.setLocation(groundLocations.get(idx));
-
-            groundLocations.remove(idx);
+            zombie.setLocation(groundLocation.get(random));
+            groundLocation.remove(random);
         }
+
+    }
+
+    private ArrayList<ArrayList<Integer>> getGroundCoordinates(int simulationSizeX, int simulationSizeY, float[][] noise) {
+
+        ArrayList<ArrayList<Integer>> groundCoordinates = new ArrayList<>(simulationSizeX);
+
+        for (int x = 0; x < simulationSizeX; x++) {
+            groundCoordinates.add(new ArrayList<>());
+        }
+        for (int x = 0; x < simulationSizeX; x++) {
+            for (int y = 0; y < simulationSizeY; y++) {
+                if (noise[x][y] >= 0.4) {
+                    groundCoordinates.get(x).add(y);
+                }
+            }
+        }
+        return groundCoordinates;
+    }
+    private int getRandomNumber(List<Location> groundLocation) {
+
+        int min = 0;
+        int max = groundLocation.size();
+
+        int randomForX = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+        return randomForX;
     }
 
     public void act() {
