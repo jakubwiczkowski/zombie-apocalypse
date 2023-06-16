@@ -76,6 +76,11 @@ public class GameStage extends Stage {
                 .getHumanManager()
                 .getEntities()
                 .forEach(this.entityGroup::addActor);
+
+        this.game.getSimulationArea()
+                .getZombieManager()
+                .getEntities()
+                .forEach(this.entityGroup::addActor);
     }
 
     public InputMultiplexer getGameAreaInputMultiplexer() {

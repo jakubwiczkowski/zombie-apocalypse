@@ -14,7 +14,6 @@ public class EntityInputListener extends InputListener {
     @Override
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
         entity.getZombieSimulation().getGameStage().setSelectedEntity(entity);
-        System.out.println("dotknieto ludzika o id " + entity.getIdentifier().toString());
         return true;
     }
 

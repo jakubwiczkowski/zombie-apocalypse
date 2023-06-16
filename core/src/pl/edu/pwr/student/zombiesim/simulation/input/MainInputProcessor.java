@@ -1,8 +1,10 @@
 package pl.edu.pwr.student.zombiesim.simulation.input;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
+import pl.edu.pwr.student.zombiesim.ZombieSimulation;
 import pl.edu.pwr.student.zombiesim.simulation.ui.game.GameStage;
 
 public class MainInputProcessor implements InputProcessor {
@@ -19,6 +21,10 @@ public class MainInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.SPACE) {
+            ZombieSimulation.getInstance().nextRound();
+        }
+
         return false;
     }
 
@@ -55,12 +61,6 @@ public class MainInputProcessor implements InputProcessor {
         int dy = this.dragStartY - screenY;
 
         OrthographicCamera camera = (OrthographicCamera) this.gameStage.getCamera();
-
-//        float effectiveViewportWidth = camera.viewportWidth * camera.zoom;
-//        float effectiveViewportHeight = camera.viewportHeight * camera.zoom;
-//
-//        System.out.println(effectiveViewportWidth + " / " + camera.viewportWidth);
-//        System.out.println(effectiveViewportHeight + " / " + camera.viewportHeight);
 
         camera.translate(dx, -dy, 0);
 

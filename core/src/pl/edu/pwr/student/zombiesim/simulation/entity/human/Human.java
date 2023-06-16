@@ -2,12 +2,9 @@ package pl.edu.pwr.student.zombiesim.simulation.entity.human;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import pl.edu.pwr.student.zombiesim.ZombieSimulation;
-import pl.edu.pwr.student.zombiesim.simulation.entity.EntityInputListener;
-import pl.edu.pwr.student.zombiesim.simulation.ui.Fonts;
 import pl.edu.pwr.student.zombiesim.simulation.entity.AbstractEntity;
+import pl.edu.pwr.student.zombiesim.simulation.entity.EntityInputListener;
 import pl.edu.pwr.student.zombiesim.simulation.entity.Gender;
 import pl.edu.pwr.student.zombiesim.simulation.map.Location;
 import pl.edu.pwr.student.zombiesim.simulation.ui.Textures;
@@ -33,15 +30,13 @@ public abstract class Human extends AbstractEntity {
     }
 
     public Human(Integer id, ZombieSimulation zombieSimulation, double health, double strength, double regeneration, double agility, double intelligence) {
-        super(id, zombieSimulation);
+        this(id, zombieSimulation);
 
         this.health = health;
-        this.strength =  strength;
+        this.strength = strength;
         this.regeneration = regeneration;
         this.agility = agility;
         this.intelligence = intelligence;
-
-        addListener(new EntityInputListener(this));
     }
 
     @Override
@@ -64,6 +59,30 @@ public abstract class Human extends AbstractEntity {
         batch.draw(this.texture,
                 this.location.x() * getTexture().getWidth(),
                 this.location.y() * getTexture().getHeight());
+    }
+
+    public double getHealth() {
+        return health;
+    }
+
+    public double getAgility() {
+        return agility;
+    }
+
+    public double getIntelligence() {
+        return intelligence;
+    }
+
+    public double getRegeneration() {
+        return regeneration;
+    }
+
+    public double getStrength() {
+        return strength;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public abstract void specialAbility();
