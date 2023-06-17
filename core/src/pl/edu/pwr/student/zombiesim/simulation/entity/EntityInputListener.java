@@ -2,6 +2,7 @@ package pl.edu.pwr.student.zombiesim.simulation.entity;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import pl.edu.pwr.student.zombiesim.ZombieSimulation;
 
 public class EntityInputListener extends InputListener {
 
@@ -13,16 +14,16 @@ public class EntityInputListener extends InputListener {
 
     @Override
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        entity.getZombieSimulation().getGameStage().setSelectedEntity(entity);
+        ZombieSimulation.getInstance().getGameStage().setSelectedEntity(entity);
         return true;
     }
 
     @Override
     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-        if (entity.getZombieSimulation().getGameStage().getSelectedEntity() != this.entity)
+        if (ZombieSimulation.getInstance().getGameStage().getSelectedEntity() != this.entity)
             return;
 
-        this.entity.getZombieSimulation().getGameStage().setSelectedEntity(null);
+        ZombieSimulation.getInstance().getGameStage().setSelectedEntity(null);
     }
 
 }

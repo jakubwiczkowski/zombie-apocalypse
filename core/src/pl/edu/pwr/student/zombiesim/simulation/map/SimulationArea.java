@@ -17,6 +17,7 @@ import pl.edu.pwr.student.zombiesim.simulation.map.noise.PerlinNoiseGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 public class SimulationArea {
@@ -68,12 +69,12 @@ public class SimulationArea {
         return this.simulationSizeY;
     }
 
-    public Ground getGroundAt(Location location) {
-        if ((location.x() < 0 || location.x() > this.simulationSizeX) ||
-                (location.y() < 0 || location.y() > this.simulationSizeY))
-            return Ground.GRASS;
+    public Optional<Ground> getGroundAt(Location location) {
+        if ((location.x() < 0 || location.x() >= this.simulationSizeX) ||
+                (location.y() < 0 || location.y() >= this.simulationSizeY))
+            return Optional.empty();
 
-        return this.ground[location.x()][location.y()];
+        return Optional.of(this.ground[location.x()][location.y()]);
     }
 
     private void populate(int humanCount, int zombieCount, List<Location> groundLocations) {
@@ -86,13 +87,13 @@ public class SimulationArea {
             int humanType = random.nextInt(4);
 
             if (humanType == 0)
-                human = new RegularHuman(this.getHumanManager().getNextId(), ZombieSimulation.getInstance());
+                human = new RegularHuman(this.getHumanManager().getNextId());
             else if (humanType == 1)
-                human = new ShooterHuman(this.getHumanManager().getNextId(), ZombieSimulation.getInstance());
+                human = new ShooterHuman(this.getHumanManager().getNextId());
             else if (humanType == 2)
-                human = new StudentHuman(this.getHumanManager().getNextId(), ZombieSimulation.getInstance());
+                human = new StudentHuman(this.getHumanManager().getNextId());
             else
-                human = new WarriorHuman(this.getHumanManager().getNextId(), ZombieSimulation.getInstance());
+                human = new WarriorHuman(this.getHumanManager().getNextId());
 
             this.getHumanManager().addEntity(human);
             human.setLocation(groundLocations.get(idx));
@@ -107,11 +108,11 @@ public class SimulationArea {
             int zombieType = random.nextInt(3);
 
             if (zombieType == 0)
-                zombie = new ChubbyZombie(this.getHumanManager().getNextId(), ZombieSimulation.getInstance());
+                zombie = new ChubbyZombie(this.getHumanManager().getNextId());
             else if (zombieType == 1)
-                zombie = new KamikazeZombie(this.getHumanManager().getNextId(), ZombieSimulation.getInstance());
+                zombie = new KamikazeZombie(this.getHumanManager().getNextId());
             else
-                zombie = new RegularZombie(this.getHumanManager().getNextId(), ZombieSimulation.getInstance());
+                zombie = new RegularZombie(this.getHumanManager().getNextId());
 
             this.getZombieManager().addEntity(zombie);
             zombie.setLocation(groundLocations.get(idx));
@@ -120,7 +121,12 @@ public class SimulationArea {
 
     }
 
-    public void act() {
+    public Random getRandom() {
+        return random;
+    }
 
+    public void act() {
+        this.humanManager.getEntities().forEach(Human::move);
+        this.zombieManager.getEntities().forEach(Zombie::move);
     }
 }
