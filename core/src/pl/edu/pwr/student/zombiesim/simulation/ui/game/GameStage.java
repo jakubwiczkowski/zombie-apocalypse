@@ -107,6 +107,10 @@ public class GameStage extends Stage {
         return selectedEntity;
     }
 
+    public Group getEntityGroup() {
+        return entityGroup;
+    }
+
     public void setSelectedEntity(AbstractEntity selectedEntity) {
         this.selectedEntity = selectedEntity;
     }
