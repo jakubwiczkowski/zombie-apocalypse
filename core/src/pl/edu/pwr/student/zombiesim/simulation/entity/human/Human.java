@@ -29,7 +29,6 @@ public abstract class Human extends AbstractEntity {
 
     private static final NormalDistribution HEALTH_DISTRIBUTION = new NormalDistribution(100, 20);
     private static final NormalDistribution STRENGTH_DISTRIBUTION = new NormalDistribution(30, 3);
-    private static final NormalDistribution REGENERATION_DISTRIBUTION = new NormalDistribution(5, 1);
 
     private final Gender gender = RANDOM.nextBoolean() ? Gender.MALE : Gender.FEMALE;
 
@@ -55,9 +54,7 @@ public abstract class Human extends AbstractEntity {
         this.maxHealth = this.health;
 
         this.strength = MathUtils.clamp(STRENGTH_DISTRIBUTION.sample(), 1, 100);
-        this.regeneration = MathUtils.clamp(REGENERATION_DISTRIBUTION.sample(), 0, 10);
         this.agility = RANDOM.nextDouble();
-        this.intelligence = RANDOM.nextDouble();
 
         addListener(new EntityInputListener(this));
     }
@@ -69,9 +66,7 @@ public abstract class Human extends AbstractEntity {
         this.maxHealth = this.health;
 
         this.strength = (parentOne.getStrength() + parentTwo.getStrength()) / 2;
-        this.regeneration = (parentOne.getRegeneration() + parentTwo.getRegeneration()) / 2;
         this.agility = (parentOne.getAgility() + parentTwo.getAgility()) / 2;
-        this.intelligence = (parentOne.getIntelligence() + parentTwo.getIntelligence()) / 2;
 
         addListener(new EntityInputListener(this));
     }

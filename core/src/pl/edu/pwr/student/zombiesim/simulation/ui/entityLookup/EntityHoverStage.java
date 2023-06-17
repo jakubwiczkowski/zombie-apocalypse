@@ -85,19 +85,16 @@ public class EntityHoverStage extends Stage {
 
             Fonts.MAIN_FONT.draw(getBatch(), "HP:  " + oneDecimal.format(zombie.getHealth()), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT);
             Fonts.MAIN_FONT.draw(getBatch(), "STR: " + oneDecimal.format(zombie.getStrength()), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 2);
-            Fonts.MAIN_FONT.draw(getBatch(), "REG: " + oneDecimal.format(zombie.getRegeneration()), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 3);
-            Fonts.MAIN_FONT.draw(getBatch(), "AG:  " + percentage.format(zombie.getAgility() * 100), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 4);
-            Fonts.MAIN_FONT.draw(getBatch(), "IR:  " + percentage.format(zombie.getInfectionRate() * 100), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 5);
-            Fonts.MAIN_FONT.draw(getBatch(), "GEN: " + zombie.getGender().toString(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 6);
+            Fonts.MAIN_FONT.draw(getBatch(), "AG:  " + percentage.format(zombie.getAgility() * 100), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 3);
+            Fonts.MAIN_FONT.draw(getBatch(), "IR:  " + percentage.format(zombie.getInfectionRate() * 100), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 4);
+            Fonts.MAIN_FONT.draw(getBatch(), "GEN: " + zombie.getGender().toString(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 5);
         } else if (abstractEntity instanceof Human human) {
             Fonts.MAIN_FONT.draw(getBatch(), "HUM: " + human.getIdentifier().toString(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP);
 
             Fonts.MAIN_FONT.draw(getBatch(), "HP:  " + oneDecimal.format(human.getHealth()), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT);
             Fonts.MAIN_FONT.draw(getBatch(), "STR: " + oneDecimal.format(human.getStrength()), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 2);
-            Fonts.MAIN_FONT.draw(getBatch(), "REG: " + oneDecimal.format(human.getRegeneration()), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 3);
-            Fonts.MAIN_FONT.draw(getBatch(), "AG:  " + percentage.format(human.getAgility() * 100), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 4);
-            Fonts.MAIN_FONT.draw(getBatch(), "INT: " + percentage.format(human.getIntelligence() * 100), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 5);
-            Fonts.MAIN_FONT.draw(getBatch(), "GEN: " + human.getGender().toString(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 6);
+            Fonts.MAIN_FONT.draw(getBatch(), "AG:  " + percentage.format(human.getAgility() * 100), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 3);
+            Fonts.MAIN_FONT.draw(getBatch(), "GEN: " + human.getGender().toString(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 4);
         }
 
         Fonts.MAIN_FONT.draw(getBatch(), "RND: " + ZombieSimulation.getInstance().getRound(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 8);

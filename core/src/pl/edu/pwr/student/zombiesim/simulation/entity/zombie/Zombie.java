@@ -25,7 +25,6 @@ public abstract class Zombie extends AbstractEntity {
 
     private static final NormalDistribution HEALTH_DISTRIBUTION = new NormalDistribution(80, 15);
     private static final NormalDistribution STRENGTH_DISTRIBUTION = new NormalDistribution(30, 3);
-    private static final NormalDistribution REGENERATION_DISTRIBUTION = new NormalDistribution(5, 1);
 
     private final Gender gender = RANDOM.nextBoolean() ? Gender.MALE : Gender.FEMALE;
 
@@ -48,7 +47,6 @@ public abstract class Zombie extends AbstractEntity {
         this.maxHealth = this.health;
 
         this.strength = MathUtils.clamp(STRENGTH_DISTRIBUTION.sample(), 1, 100);
-        this.regeneration = MathUtils.clamp(REGENERATION_DISTRIBUTION.sample(), 0, 10);
         this.agility = RANDOM.nextDouble();
         this.infectionRate = RANDOM.nextDouble();
 
@@ -62,7 +60,6 @@ public abstract class Zombie extends AbstractEntity {
         this.maxHealth = this.health;
 
         this.strength = fromHuman.getStrength();
-        this.regeneration = fromHuman.getRegeneration();
         this.agility = fromHuman.getAgility();
         this.infectionRate = RANDOM.nextDouble();
 
