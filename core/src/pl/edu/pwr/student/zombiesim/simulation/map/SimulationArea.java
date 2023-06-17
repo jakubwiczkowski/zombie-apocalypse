@@ -50,7 +50,7 @@ public class SimulationArea {
             }
         }
 
-        populate(20, 20, groundLocations);
+        populate(40, 40, groundLocations);
     }
 
     public AbstractEntityManager<Human> getHumanManager() {
@@ -78,6 +78,8 @@ public class SimulationArea {
     }
 
     private void populate(int humanCount, int zombieCount, List<Location> groundLocations) {
+        if (humanCount + zombieCount > groundLocations.size())
+            return;
 
         for (int i = 0; i < humanCount; i++) {
             int idx = random.nextInt(groundLocations.size());
@@ -126,7 +128,43 @@ public class SimulationArea {
     }
 
     public void act() {
+        this.humanManager.getEntities().forEach(Human::interact);
         this.humanManager.getEntities().forEach(Human::move);
+        this.zombieManager.getEntities().forEach(Zombie::interact);
         this.zombieManager.getEntities().forEach(Zombie::move);
+
+        this.humanManager.getEntities().forEach(human -> human.setHasInteracted(false));
+        this.zombieManager.getEntities().forEach(zombie -> zombie.setHasInteracted(false));
+
+        List<Human> humansToDelete = this.humanManager.getEntities().stream()
+                .filter(human -> human.getHealth() <= 0 && !human.isInfected())
+                .toList();
+
+        List<Human> humansToTurn = this.humanManager.getEntities().stream()
+                .filter(human -> human.getHealth() <= 0 && human.isInfected())
+                .toList();
+
+        humansToDelete.forEach(this.humanManager::removeEntity);
+        humansToTurn.forEach(this.humanManager::removeEntity);
+
+        humansToTurn.stream().map(human -> {
+            int zombieType = random.nextInt(3);
+
+            if (zombieType == 0)
+                return new ChubbyZombie(this.getHumanManager().getNextId(), human);
+            else if (zombieType == 1)
+                return new KamikazeZombie(this.getHumanManager().getNextId(), human);
+            else
+                return new RegularZombie(this.getHumanManager().getNextId(), human);
+        }).forEach(zombie -> {
+            this.zombieManager.addEntity(zombie);
+            ZombieSimulation.getInstance().getGameStage().getEntityGroup().addActor(zombie);
+        });
+
+        List<Zombie> zombiesToDelete = this.zombieManager.getEntities().stream()
+                .filter(zombie -> zombie.getHealth() <= 0)
+                .toList();
+
+        zombiesToDelete.forEach(this.zombieManager::removeEntity);
     }
 }

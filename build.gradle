@@ -55,9 +55,9 @@ project(":core") {
     apply plugin: "java-library"
 
     dependencies {
+        api group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
-        
     }
 }

@@ -28,7 +28,7 @@ public class ZombieSimulation extends Game {
     public void create() {
         INSTANCE = this;
 
-        this.simulationArea = new SimulationArea(50, 50);
+        this.simulationArea = new SimulationArea(30, 30);
 
         this.gameStage = new GameStage(this);
         this.gameStage.getMainInputProcessor().updateCamera();

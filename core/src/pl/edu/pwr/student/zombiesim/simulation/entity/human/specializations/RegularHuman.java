@@ -11,6 +11,10 @@ public class RegularHuman extends Human {
         super(id, health, strength, agility);
     }
 
+    public RegularHuman(Integer id, Human parentOne, Human parentTwo) {
+        super(id, parentOne, parentTwo);
+    }
+
     @Override
     public void specialAbility() {
 
