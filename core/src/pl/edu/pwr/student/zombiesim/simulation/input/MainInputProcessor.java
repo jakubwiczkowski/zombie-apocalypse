@@ -21,15 +21,20 @@ public class MainInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        if (keycode == Input.Keys.SPACE) {
-            ZombieSimulation.getInstance().nextRound();
-        }
+        if (keycode == Input.Keys.SPACE)
+            ZombieSimulation.getInstance().setFastForward(true);
 
-        return false;
+        if (keycode == Input.Keys.TAB)
+            ZombieSimulation.getInstance().nextRound();
+
+        return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
+        if (keycode == Input.Keys.SPACE)
+            ZombieSimulation.getInstance().setFastForward(false);
+
         return true;
     }
 

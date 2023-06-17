@@ -23,9 +23,9 @@ public class EntityHoverStage extends Stage {
 
     private final ZombieSimulation zombieSimulation;
 
-    private ShapeRenderer renderer = new ShapeRenderer();
+    private final ShapeRenderer renderer = new ShapeRenderer();
 
-    private InputMultiplexer inputMultiplexer = new InputMultiplexer(this);
+    private final InputMultiplexer inputMultiplexer = new InputMultiplexer(this);
 
     public EntityHoverStage(ZombieSimulation zombieSimulation) {
         super(new ScreenViewport());
@@ -74,9 +74,7 @@ public class EntityHoverStage extends Stage {
                 abstractEntity.getTexture().getWidth() * 3,
                 abstractEntity.getTexture().getHeight() * 3);
 
-        if (abstractEntity instanceof Zombie) {
-            Zombie zombie = (Zombie) abstractEntity;
-
+        if (abstractEntity instanceof Zombie zombie) {
             Fonts.MAIN_FONT.draw(getBatch(), "ZOM: " + zombie.getIdentifier().toString(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP);
 
             Fonts.MAIN_FONT.draw(getBatch(), "HP:  " + zombie.getHealth(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT);
@@ -84,9 +82,7 @@ public class EntityHoverStage extends Stage {
             Fonts.MAIN_FONT.draw(getBatch(), "REG: " + zombie.getRegeneration(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 3);
             Fonts.MAIN_FONT.draw(getBatch(), "AG:  " + zombie.getAgility(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 4);
             Fonts.MAIN_FONT.draw(getBatch(), "IR:  " + zombie.getInfectionRate(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 5);
-        } else {
-            Human human = (Human) abstractEntity;
-
+        } else if (abstractEntity instanceof Human human) {
             Fonts.MAIN_FONT.draw(getBatch(), "HUM: " + human.getIdentifier().toString(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP);
 
             Fonts.MAIN_FONT.draw(getBatch(), "HP:  " + human.getHealth(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT);
@@ -96,7 +92,7 @@ public class EntityHoverStage extends Stage {
             Fonts.MAIN_FONT.draw(getBatch(), "INT: " + human.getIntelligence(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 5);
         }
 
-        Fonts.MAIN_FONT.draw(getBatch(), "ROUND:  " + ZombieSimulation.getInstance().getRound(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 7);
+        Fonts.MAIN_FONT.draw(getBatch(), "RND: " + ZombieSimulation.getInstance().getRound(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 7);
 
         getBatch().end();
     }

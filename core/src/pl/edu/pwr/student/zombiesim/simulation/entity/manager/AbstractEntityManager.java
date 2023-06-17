@@ -1,6 +1,8 @@
 package pl.edu.pwr.student.zombiesim.simulation.entity.manager;
 
 import pl.edu.pwr.student.zombiesim.simulation.entity.AbstractEntity;
+import pl.edu.pwr.student.zombiesim.simulation.entity.human.Human;
+import pl.edu.pwr.student.zombiesim.simulation.map.Location;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,6 +18,13 @@ public abstract class AbstractEntityManager<E extends AbstractEntity> {
 
     public Optional<E> getEntity(Integer id) {
         return Optional.ofNullable(this.entityMap.getOrDefault(id, null));
+    }
+
+    public Optional<E> getAtLocation(Location location) {
+        return getEntities().stream()
+                .filter(entity ->
+                        entity.getLocation().x() == location.x() && entity.getLocation().y() == location.y())
+                .findFirst();
     }
 
     public List<E> getEntities() {

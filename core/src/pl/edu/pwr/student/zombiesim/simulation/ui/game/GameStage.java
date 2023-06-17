@@ -66,7 +66,7 @@ public class GameStage extends Stage {
 
         for (int x = 0; x < this.game.getSimulationArea().getSimulationSizeX(); x++) {
             for (int y = 0; y < this.game.getSimulationArea().getSimulationSizeY(); y++) {
-                Ground ground = this.game.getSimulationArea().getGroundAt(new Location(x, y));
+                Ground ground = this.game.getSimulationArea().getGroundAt(new Location(x, y)).get();
 
                 this.mapTilesGroup.addActor(new GroundActor(ground, x, y));
             }
