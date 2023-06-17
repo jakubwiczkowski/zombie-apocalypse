@@ -21,7 +21,6 @@ public abstract class Zombie extends AbstractEntity {
 
     private double health;
     private double strength;
-    private double regeneration;
     private double agility;
     private double infectionRate;
 
@@ -35,12 +34,11 @@ public abstract class Zombie extends AbstractEntity {
         addListener(new EntityInputListener(this));
     }
 
-    public Zombie(Integer id, double health, double strength, double regeneration, double agility, double infectionRate) {
+    public Zombie(Integer id, double health, double strength, double agility, double infectionRate) {
         this(id);
 
         this.health = health;
         this.strength =  strength;
-        this.regeneration = regeneration;
         this.agility = agility;
         this.infectionRate = infectionRate;
     }
@@ -100,10 +98,6 @@ public abstract class Zombie extends AbstractEntity {
 
     public double getStrength() {
         return strength;
-    }
-
-    public double getRegeneration() {
-        return regeneration;
     }
 
     public double getAgility() {

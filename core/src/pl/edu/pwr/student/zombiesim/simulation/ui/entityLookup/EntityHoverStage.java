@@ -79,17 +79,14 @@ public class EntityHoverStage extends Stage {
 
             Fonts.MAIN_FONT.draw(getBatch(), "HP:  " + zombie.getHealth(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT);
             Fonts.MAIN_FONT.draw(getBatch(), "STR: " + zombie.getStrength(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 2);
-            Fonts.MAIN_FONT.draw(getBatch(), "REG: " + zombie.getRegeneration(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 3);
-            Fonts.MAIN_FONT.draw(getBatch(), "AG:  " + zombie.getAgility(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 4);
-            Fonts.MAIN_FONT.draw(getBatch(), "IR:  " + zombie.getInfectionRate(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 5);
+            Fonts.MAIN_FONT.draw(getBatch(), "AG:  " + zombie.getAgility(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 3);
+            Fonts.MAIN_FONT.draw(getBatch(), "IR:  " + zombie.getInfectionRate(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 4);
         } else if (abstractEntity instanceof Human human) {
             Fonts.MAIN_FONT.draw(getBatch(), "HUM: " + human.getIdentifier().toString(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP);
 
             Fonts.MAIN_FONT.draw(getBatch(), "HP:  " + human.getHealth(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT);
             Fonts.MAIN_FONT.draw(getBatch(), "STR: " + human.getStrength(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 2);
-            Fonts.MAIN_FONT.draw(getBatch(), "REG: " + human.getRegeneration(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 3);
-            Fonts.MAIN_FONT.draw(getBatch(), "AG:  " + human.getAgility(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 4);
-            Fonts.MAIN_FONT.draw(getBatch(), "INT: " + human.getIntelligence(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 5);
+            Fonts.MAIN_FONT.draw(getBatch(), "AG:  " + human.getAgility(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 3);
         }
 
         Fonts.MAIN_FONT.draw(getBatch(), "RND: " + ZombieSimulation.getInstance().getRound(), 5, SIDEBAR_HEIGHT - ICON_OFFSET_TOP - TEXT_HEIGHT * 7);

@@ -20,9 +20,7 @@ public abstract class Human extends AbstractEntity {
 
     private double health;
     private double strength;
-    private double regeneration;
     private double agility;
-    private double intelligence;
 
     private final Texture texture = Textures.HUMAN_TEXTURE;
 
@@ -34,14 +32,12 @@ public abstract class Human extends AbstractEntity {
         addListener(new EntityInputListener(this));
     }
 
-    public Human(Integer id, double health, double strength, double regeneration, double agility, double intelligence) {
+    public Human(Integer id, double health, double strength, double agility) {
         this(id);
 
         this.health = health;
         this.strength = strength;
-        this.regeneration = regeneration;
         this.agility = agility;
-        this.intelligence = intelligence;
     }
 
     @Override
@@ -101,14 +97,6 @@ public abstract class Human extends AbstractEntity {
 
     public double getAgility() {
         return agility;
-    }
-
-    public double getIntelligence() {
-        return intelligence;
-    }
-
-    public double getRegeneration() {
-        return regeneration;
     }
 
     public double getStrength() {

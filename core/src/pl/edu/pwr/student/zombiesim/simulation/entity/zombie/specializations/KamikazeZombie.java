@@ -7,8 +7,8 @@ public class KamikazeZombie extends Zombie {
         super(id);
     }
 
-    public KamikazeZombie(Integer id, double health, double strength, double regeneration, double agility, double infectionRate) {
-        super(id, health, strength, regeneration, agility, infectionRate);
+    public KamikazeZombie(Integer id, double health, double strength, double agility, double infectionRate) {
+        super(id, health, strength, agility, infectionRate);
     }
 
     @Override

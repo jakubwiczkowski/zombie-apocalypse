@@ -8,8 +8,8 @@ public class WarriorHuman extends Human {
         super(id);
     }
 
-    public WarriorHuman(Integer id, double health, double strength, double regeneration, double agility, double intelligence) {
-        super(id, health, strength, regeneration, agility, intelligence);
+    public WarriorHuman(Integer id, double health, double strength, double agility) {
+        super(id, health, strength, agility);
     }
 
     @Override
