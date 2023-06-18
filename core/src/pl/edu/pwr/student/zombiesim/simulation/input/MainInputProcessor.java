@@ -15,6 +15,8 @@ public class MainInputProcessor implements InputProcessor {
 
     private final GameStage gameStage;
 
+    private boolean isHoldingAlt = false;
+
     private boolean isDragging = false;
     private int dragStartX = 0;
     private int dragStartY = 0;
@@ -31,6 +33,9 @@ public class MainInputProcessor implements InputProcessor {
      */
     @Override
     public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.ALT_LEFT)
+            isHoldingAlt = true;
+
         if (keycode == Input.Keys.SPACE)
             ZombieSimulation.getInstance().setFastForward(true);
 
@@ -48,6 +53,9 @@ public class MainInputProcessor implements InputProcessor {
      */
     @Override
     public boolean keyUp(int keycode) {
+        if (keycode == Input.Keys.ALT_LEFT)
+            isHoldingAlt = false;
+
         if (keycode == Input.Keys.SPACE)
             ZombieSimulation.getInstance().setFastForward(false);
 
@@ -148,5 +156,9 @@ public class MainInputProcessor implements InputProcessor {
         camera.position.y = MathUtils.clamp(camera.position.y,
                 effectiveViewportHeight / 2f,
                 this.gameStage.getWorldHeight() - effectiveViewportHeight / 2f);
+    }
+
+    public boolean isHoldingAlt() {
+        return isHoldingAlt;
     }
 }

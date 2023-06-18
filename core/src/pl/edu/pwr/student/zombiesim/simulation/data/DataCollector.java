@@ -107,9 +107,9 @@ public class DataCollector {
         if (outputted)
             return;
 
-        BufferedWriter humAgWriter = new BufferedWriter(new FileWriter("h_ag.csv", true));
-        BufferedWriter humMhWriter = new BufferedWriter(new FileWriter("h_mh.csv", true));
-        BufferedWriter humStWriter = new BufferedWriter(new FileWriter("h_st.csv", true));
+        BufferedWriter humAgWriter = new BufferedWriter(new FileWriter("h_ag.csv"));
+        BufferedWriter humMhWriter = new BufferedWriter(new FileWriter("h_mh.csv"));
+        BufferedWriter humStWriter = new BufferedWriter(new FileWriter("h_st.csv"));
 
         humAgWriter.write("type,agility\n");
         humMhWriter.write("type,maxhealth\n");
@@ -152,10 +152,10 @@ public class DataCollector {
         humMhWriter.close();
         humStWriter.close();
 
-        BufferedWriter zomAgWriter = new BufferedWriter(new FileWriter("z_ag.csv", true));
-        BufferedWriter zomMhWriter = new BufferedWriter(new FileWriter("z_mh.csv", true));
-        BufferedWriter zomStWriter = new BufferedWriter(new FileWriter("z_st.csv", true));
-        BufferedWriter zomIrWriter = new BufferedWriter(new FileWriter("z_st.csv", true));
+        BufferedWriter zomAgWriter = new BufferedWriter(new FileWriter("z_ag.csv"));
+        BufferedWriter zomMhWriter = new BufferedWriter(new FileWriter("z_mh.csv"));
+        BufferedWriter zomStWriter = new BufferedWriter(new FileWriter("z_st.csv"));
+        BufferedWriter zomIrWriter = new BufferedWriter(new FileWriter("z_st.csv"));
 
         zomAgWriter.write("type,agility\n");
         zomMhWriter.write("type,maxhealth\n");
@@ -211,7 +211,7 @@ public class DataCollector {
         zomStWriter.close();
         zomIrWriter.close();
 
-        BufferedWriter overallWriter = new BufferedWriter(new FileWriter("overall.csv", true));
+        BufferedWriter overallWriter = new BufferedWriter(new FileWriter("overall.csv"));
 
         overallWriter.write("roundsSimulated,humansBorn,humansTurned,humansDied,zombiesDied\n");
         overallWriter.append(roundsSimulated + "," + humansBorn + "," + humansTurned + "," + humansDied + "," + zombiesDied);
