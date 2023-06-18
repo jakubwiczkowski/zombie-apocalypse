@@ -1,6 +1,7 @@
 package pl.edu.pwr.student.zombiesim.simulation.map;
 
 import pl.edu.pwr.student.zombiesim.ZombieSimulation;
+import pl.edu.pwr.student.zombiesim.simulation.entity.AbstractEntity;
 import pl.edu.pwr.student.zombiesim.simulation.entity.human.Human;
 import pl.edu.pwr.student.zombiesim.simulation.entity.human.HumanManager;
 import pl.edu.pwr.student.zombiesim.simulation.entity.human.specializations.RegularHuman;
@@ -20,6 +21,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+/**
+ * Class that takes care of everything map related.
+ * Holds {@link HumanManager} and {@link ZombieManager} instances.
+ * Generates the map based on Perlin noise.
+ *
+ * @see PerlinNoiseGenerator
+ */
 public class SimulationArea {
 
     private final Random random = new Random(System.currentTimeMillis());
@@ -27,7 +35,7 @@ public class SimulationArea {
     private final AbstractEntityManager<Human> humanManager = new HumanManager();
     private final AbstractEntityManager<Zombie> zombieManager = new ZombieManager();
 
-    private List<Location> groundLocations;
+    private final List<Location> groundLocations;
     private final Ground[][] ground;
 
     private final int simulationSizeX;
@@ -38,6 +46,7 @@ public class SimulationArea {
         this.simulationSizeY = simulationSizeY;
 
         this.ground = new Ground[simulationSizeX][simulationSizeY];
+
         float[][] noise = PerlinNoiseGenerator.generatePerlinNoise(this.simulationSizeX, this.simulationSizeY, 4);
 
         this.groundLocations = new ArrayList<>();
@@ -51,28 +60,59 @@ public class SimulationArea {
             }
         }
 
-        populate(20, 20, this.groundLocations);
+        populate(30, 30, this.groundLocations);
     }
 
+    /**
+     * Method that returns {@link HumanManager} instance.
+     *
+     * @see AbstractEntityManager
+     *
+     * @return {@link HumanManager} object
+     */
     public AbstractEntityManager<Human> getHumanManager() {
         return this.humanManager;
     }
 
+    /**
+     * Method that returns {@link ZombieManager} instance.
+     *
+     * @see AbstractEntityManager
+     *
+     * @return {@link ZombieManager} object
+     */
     public AbstractEntityManager<Zombie> getZombieManager() {
         return this.zombieManager;
     }
 
+    /**
+     * Method that returns width of the simulation
+     * in tiles (one tile is 32x32 pixels).
+     *
+     * @return width of the simulation
+     */
     public int getSimulationSizeX() {
         return this.simulationSizeX;
     }
 
+    /**
+     * Method that returns height of the simulation
+     * in tiles (one tile is 32x32 pixels).
+     *
+     * @return height of the simulation
+     */
     public int getSimulationSizeY() {
         return this.simulationSizeY;
     }
-    public List<Location> getGroundLocation() {
-        return this.groundLocations;
-    }
 
+    /**
+     * Returns the type of {@link Ground} at a
+     * given {@link Location}.
+     *
+     * @param location {@link Location} on the map
+     * @return         {@link Ground} if exists, null otherwise
+     *                 (enclosed in {@link Optional})
+     */
     public Optional<Ground> getGroundAt(Location location) {
         if ((location.x() < 0 || location.x() >= this.simulationSizeX) ||
                 (location.y() < 0 || location.y() >= this.simulationSizeY))
@@ -81,6 +121,14 @@ public class SimulationArea {
         return Optional.of(this.ground[location.x()][location.y()]);
     }
 
+    /**
+     * Populates the simulation map with {@link Human}s
+     * and {@link Zombie}s.
+     *
+     * @param humanCount      number of {@link Human}s to spawn
+     * @param zombieCount     number of {@link Zombie}s to spawn
+     * @param groundLocations available spawn locations
+     */
     private void populate(int humanCount, int zombieCount, List<Location> groundLocations) {
         if (humanCount + zombieCount > groundLocations.size())
             return;
@@ -126,10 +174,22 @@ public class SimulationArea {
 
     }
 
+    /**
+     * Returns this object's instance of {@link Random} class.
+     *
+     * @return an instance of {@link Random}
+     */
     public Random getRandom() {
         return random;
     }
 
+    /**
+     * Method called at the start of every round.
+     * Takes care of {@link AbstractEntity} interaction, movement, death
+     * and turning infected {@link Human}s into {@link Zombie}s.
+     *
+     * @see ZombieSimulation
+     */
     public void act() {
         this.humanManager.getEntities().forEach(Human::interact);
         this.humanManager.getEntities().forEach(Human::move);
@@ -143,9 +203,17 @@ public class SimulationArea {
                 .filter(human -> human.getHealth() <= 0 && !human.isInfected())
                 .toList();
 
+        ZombieSimulation.getInstance()
+                .getDataCollector()
+                .addHumansDied(humansToDelete.size());
+
         List<Human> humansToTurn = this.humanManager.getEntities().stream()
                 .filter(human -> human.getHealth() <= 0 && human.isInfected())
                 .toList();
+
+        ZombieSimulation.getInstance()
+                .getDataCollector()
+                .addHumansTurned(humansToTurn.size());
 
         humansToDelete.forEach(this.humanManager::removeEntity);
         humansToTurn.forEach(this.humanManager::removeEntity);

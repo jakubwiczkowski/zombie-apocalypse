@@ -1,18 +1,31 @@
 package pl.edu.pwr.student.zombiesim;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.utils.ScreenUtils;
+import pl.edu.pwr.student.zombiesim.simulation.data.DataCollector;
+import pl.edu.pwr.student.zombiesim.simulation.map.Ground;
 import pl.edu.pwr.student.zombiesim.simulation.map.SimulationArea;
+import pl.edu.pwr.student.zombiesim.simulation.ui.Fonts;
 import pl.edu.pwr.student.zombiesim.simulation.ui.Textures;
 import pl.edu.pwr.student.zombiesim.simulation.ui.entityLookup.EntityHoverStage;
 import pl.edu.pwr.student.zombiesim.simulation.ui.game.GameStage;
 
+import javax.xml.crypto.Data;
+import java.io.IOException;
+
+/**
+ * Main class of the entire program. Stores all essential object for the simulation.
+ * Extends {@link Game} from LibGDX library.
+ * <p>
+ * Is a singleton.
+ */
 public class ZombieSimulation extends Game {
 
     private static ZombieSimulation INSTANCE;
+
+    private final DataCollector dataCollector = new DataCollector();
 
     private GameStage gameStage;
     private EntityHoverStage entityHoverStage;
@@ -30,10 +43,10 @@ public class ZombieSimulation extends Game {
 
         this.simulationArea = new SimulationArea(30, 30);
 
-        this.gameStage = new GameStage(this);
+        this.gameStage = new GameStage();
         this.gameStage.getMainInputProcessor().updateCamera();
 
-        this.entityHoverStage = new EntityHoverStage(this);
+        this.entityHoverStage = new EntityHoverStage();
 
         this.mainInputMultiplexer = new InputMultiplexer(
                 this.gameStage.getGameAreaInputMultiplexer(),
@@ -62,58 +75,99 @@ public class ZombieSimulation extends Game {
 
     @Override
     public void dispose() {
+        try {
+            dataCollector.writeData();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         this.gameStage.getBatch().dispose();
         this.gameStage.dispose();
 
         this.entityHoverStage.getBatch().dispose();
         this.entityHoverStage.dispose();
+
+        Textures.HUMAN_TEXTURE.dispose();
+        Textures.WATER_TEXTURE.dispose();
+        Textures.GRASS_TEXTURE.dispose();
+
+        Fonts.MAIN_FONT.dispose();
     }
 
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
+    /**
+     * Method that returns a {@link SimulationArea} object used to
+     * store all information about the map - entities,
+     * {@link Ground} data, etc.
+     *
+     * @return {@link SimulationArea} object
+     */
     public SimulationArea getSimulationArea() {
         return simulationArea;
     }
 
+    /**
+     * Method that returns a {@link GameStage} object - main
+     * object of the simulation that takes care of rendering the map
+     * to the screen.
+     *
+     * @return {@link GameStage} object
+     */
     public GameStage getGameStage() {
         return gameStage;
     }
 
-    public EntityHoverStage getEntityHoverStage() {
-        return entityHoverStage;
-    }
-
+    /**
+     * Method used to advance to the next round of the simulation.
+     *
+     * @see SimulationArea
+     */
     public void nextRound() {
+        if (this.simulationArea.getHumanManager().getEntities().isEmpty() ||
+                this.simulationArea.getZombieManager().getEntities().isEmpty()) {
+            try {
+                dataCollector.writeData();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            return;
+        }
+
         round++;
 
         this.simulationArea.act();
+
+        dataCollector.setRoundsSimulated(round);
     }
 
+    /**
+     * Method that returns the current round of the simulation
+     * (or how many rounds passed since simulation's initialization).
+     *
+     * @return current round
+     */
     public int getRound() {
         return round;
     }
 
-    public boolean isFastForward() {
-        return fastForward;
-    }
-
+    /**
+     * Method used to enable and disable the fast-forward option for skipping rounds.
+     *
+     * @param fastForward true - turns on fast-forward, false - turns of fast-forward
+     */
     public void setFastForward(boolean fastForward) {
         this.fastForward = fastForward;
     }
 
+    public DataCollector getDataCollector() {
+        return dataCollector;
+    }
+
+    /**
+     * Method that returns the instance of {@link ZombieSimulation} singleton.
+     *
+     * @return instance of the {@link ZombieSimulation} singleton
+     */
     public static ZombieSimulation getInstance() {
         return INSTANCE;
     }

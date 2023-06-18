@@ -5,8 +5,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
+/**
+ * Class used to store all fonts that are used in the simulation.
+ */
 public class Fonts {
 
+    /**
+     * MAin font used in the simulation.
+     * Pixeloid Mono.
+     */
     public static BitmapFont MAIN_FONT;
 
     static {
