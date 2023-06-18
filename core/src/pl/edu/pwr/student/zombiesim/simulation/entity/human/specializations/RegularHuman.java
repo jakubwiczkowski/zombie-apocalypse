@@ -7,8 +7,8 @@ public class RegularHuman extends Human {
         super(id);
     }
 
-    public RegularHuman(Integer id, double health, double strength, double regeneration, double agility, double intelligence) {
-        super(id, health, strength, regeneration, agility, intelligence);
+    public RegularHuman(Integer id, double health, double strength, double agility) {
+        super(id, health, strength, agility);
     }
 
     public RegularHuman(Integer id, Human parentOne, Human parentTwo) {

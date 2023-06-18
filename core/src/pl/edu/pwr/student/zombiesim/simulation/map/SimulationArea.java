@@ -27,6 +27,7 @@ public class SimulationArea {
     private final AbstractEntityManager<Human> humanManager = new HumanManager();
     private final AbstractEntityManager<Zombie> zombieManager = new ZombieManager();
 
+    private List<Location> groundLocations;
     private final Ground[][] ground;
 
     private final int simulationSizeX;
@@ -39,18 +40,18 @@ public class SimulationArea {
         this.ground = new Ground[simulationSizeX][simulationSizeY];
         float[][] noise = PerlinNoiseGenerator.generatePerlinNoise(this.simulationSizeX, this.simulationSizeY, 4);
 
-        List<Location> groundLocations = new ArrayList<>();
+        this.groundLocations = new ArrayList<>();
 
         for (int i = 0; i < this.simulationSizeX; i++) {
             for (int j = 0; j < this.simulationSizeY; j++) {
                 ground[i][j] = noise[i][j] >= 0.4 ? Ground.GRASS : Ground.WATER;
 
                 if (ground[i][j] == Ground.GRASS)
-                    groundLocations.add(new Location(i, j));
+                    this.groundLocations.add(new Location(i, j));
             }
         }
 
-        populate(40, 40, groundLocations);
+        populate(20, 20, this.groundLocations);
     }
 
     public AbstractEntityManager<Human> getHumanManager() {
@@ -67,6 +68,9 @@ public class SimulationArea {
 
     public int getSimulationSizeY() {
         return this.simulationSizeY;
+    }
+    public List<Location> getGroundLocation() {
+        return this.groundLocations;
     }
 
     public Optional<Ground> getGroundAt(Location location) {
@@ -87,7 +91,6 @@ public class SimulationArea {
             Human human;
 
             int humanType = random.nextInt(4);
-
             if (humanType == 0)
                 human = new RegularHuman(this.getHumanManager().getNextId());
             else if (humanType == 1)

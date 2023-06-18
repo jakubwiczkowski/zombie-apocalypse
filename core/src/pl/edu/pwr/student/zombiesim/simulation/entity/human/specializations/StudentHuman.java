@@ -12,8 +12,8 @@ public class StudentHuman extends Human {
         super(id, parentOne, parentTwo);
     }
 
-    public StudentHuman(Integer id, double health, double strength, double regeneration, double agility, double intelligence) {
-        super(id, health, strength, regeneration, agility, intelligence);
+    public StudentHuman(Integer id, double health, double strength, double agility) {
+        super(id, health, strength, agility);
     }
 
     @Override
