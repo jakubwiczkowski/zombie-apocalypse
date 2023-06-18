@@ -121,6 +121,14 @@ public class SimulationArea {
         return Optional.of(this.ground[location.x()][location.y()]);
     }
 
+    public void setGroundAt(Location location, Ground ground) {
+        if ((location.x() < 0 || location.x() >= this.simulationSizeX) ||
+                (location.y() < 0 || location.y() >= this.simulationSizeY))
+            return;
+
+        this.ground[location.x()][location.y()] = ground;
+    }
+
     /**
      * Populates the simulation map with {@link Human}s
      * and {@link Zombie}s.
@@ -235,6 +243,10 @@ public class SimulationArea {
         List<Zombie> zombiesToDelete = this.zombieManager.getEntities().stream()
                 .filter(zombie -> zombie.getHealth() <= 0)
                 .toList();
+
+        ZombieSimulation.getInstance()
+                .getDataCollector()
+                .addZombiesDied(zombiesToDelete.size());
 
         zombiesToDelete.forEach(this.zombieManager::removeEntity);
     }
