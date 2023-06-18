@@ -31,7 +31,7 @@ public abstract class Human extends AbstractEntity {
     private static final NormalDistribution STRENGTH_DISTRIBUTION = new NormalDistribution(30, 3);
 
     private final Gender gender = RANDOM.nextBoolean() ? Gender.MALE : Gender.FEMALE;
-    private final double maxHealth;
+    private double maxHealth;
     private double health;
     private double strength;
     private double agility;
@@ -52,9 +52,13 @@ public abstract class Human extends AbstractEntity {
         this.maxHealth = this.health;
 
         this.strength = MathUtils.clamp(STRENGTH_DISTRIBUTION.sample(), 1, 100);
-        this.agility = RANDOM.nextDouble();
+        this.agility = RANDOM.nextDouble(0.8);
 
         addListener(new EntityInputListener(this));
+
+        ZombieSimulation.getInstance()
+                .getDataCollector()
+                .addHumanData(this);
     }
 
     public Human(Integer id, Human parentOne, Human parentTwo) {
@@ -67,6 +71,10 @@ public abstract class Human extends AbstractEntity {
         this.agility = (parentOne.getAgility() + parentTwo.getAgility()) / 2;
 
         addListener(new EntityInputListener(this));
+
+        ZombieSimulation.getInstance()
+                .getDataCollector()
+                .addHumanData(this);
     }
 
     public Human(Integer id, double health, double strength, double agility) {
@@ -99,20 +107,43 @@ public abstract class Human extends AbstractEntity {
                 this.location.y() * getTexture().getHeight());
     }
 
+    public List<Location> getAttackLocations() {
+        List<Location> nearbyLocations = new ArrayList<>();
+
+        nearbyLocations.add(location.add(-1, 1));
+        nearbyLocations.add(location.add(0, 1));
+        nearbyLocations.add(location.add(1, 1));
+
+        nearbyLocations.add(location.add(-1, 0));
+        nearbyLocations.add(location.add(1, 0));
+
+        nearbyLocations.add(location.add(-1, -1));
+        nearbyLocations.add(location.add(0, -1));
+        nearbyLocations.add(location.add(1, -1));
+
+        return nearbyLocations;
+    }
+
+    public List<Location> getMoveLocations() {
+        List<Location> nearbyLocations = new ArrayList<>();
+
+        nearbyLocations.add(location.add(-1, 1));
+        nearbyLocations.add(location.add(0, 1));
+        nearbyLocations.add(location.add(1, 1));
+
+        nearbyLocations.add(location.add(-1, 0));
+        nearbyLocations.add(location.add(1, 0));
+
+        nearbyLocations.add(location.add(-1, -1));
+        nearbyLocations.add(location.add(0, -1));
+        nearbyLocations.add(location.add(1, -1));
+
+        return nearbyLocations;
+    }
+
     @Override
     public void move() {
-        List<Location> possibleMoves = new ArrayList<>();
-
-        possibleMoves.add(location.add(-1, 1));
-        possibleMoves.add(location.add(0, 1));
-        possibleMoves.add(location.add(1, 1));
-
-        possibleMoves.add(location.add(-1, 0));
-        possibleMoves.add(location.add(1, 0));
-
-        possibleMoves.add(location.add(-1, -1));
-        possibleMoves.add(location.add(0, -1));
-        possibleMoves.add(location.add(1, -1));
+        List<Location> possibleMoves = getMoveLocations();
 
         SimulationArea simulationArea = ZombieSimulation.getInstance().getSimulationArea();
 
@@ -131,19 +162,9 @@ public abstract class Human extends AbstractEntity {
         setLocation(move);
     }
 
+    @Override
     public void interact() {
-        List<Location> nearbyLocations = new ArrayList<>();
-
-        nearbyLocations.add(location.add(-1, 1));
-        nearbyLocations.add(location.add(0, 1));
-        nearbyLocations.add(location.add(1, 1));
-
-        nearbyLocations.add(location.add(-1, 0));
-        nearbyLocations.add(location.add(1, 0));
-
-        nearbyLocations.add(location.add(-1, -1));
-        nearbyLocations.add(location.add(0, -1));
-        nearbyLocations.add(location.add(1, -1));
+        List<Location> nearbyLocations = getAttackLocations();
 
         SimulationArea simulationArea = ZombieSimulation.getInstance().getSimulationArea();
 
@@ -154,14 +175,17 @@ public abstract class Human extends AbstractEntity {
                 .toList();
 
         if (possibleTargets.isEmpty()) {
-            if (ZombieSimulation.getInstance().getRound() - this.getMatedRound < 50)
+            if (ZombieSimulation.getInstance().getRound() - this.getMatedRound < 100)
                 return;
 
-            Optional<Human> possibleMate = nearbyLocations.stream()
+            if (RANDOM.nextDouble() >= 0.01) // 1% szansy na rozmnozenie
+                return;
+
+            Optional<Human> possibleMate = getMoveLocations().stream()
                     .map(location -> simulationArea.getHumanManager().getAtLocation(location))
                     .filter(Optional::isPresent)
                     .map(Optional::get)
-                    .filter(human -> ZombieSimulation.getInstance().getRound() - human.getGetMatedRound() > 50)
+                    .filter(human -> ZombieSimulation.getInstance().getRound() - human.getGetMatedRound() > 100)
                     .filter(human -> human.getGender() != this.gender)
                     .findFirst();
 
@@ -171,13 +195,11 @@ public abstract class Human extends AbstractEntity {
 
             Human mate = possibleMate.get();
 
-            List<Location> availableMoves = nearbyLocations.stream()
+            List<Location> availableMoves = getMoveLocations().stream()
                     .filter(possibleLocation -> simulationArea.getGroundAt(possibleLocation).isPresent() &&
                             simulationArea.getGroundAt(possibleLocation).get() == Ground.GRASS)
                     .filter(possibleLocation -> simulationArea.getZombieManager().getAtLocation(possibleLocation).isEmpty())
                     .filter(possibleLocation -> simulationArea.getHumanManager().getAtLocation(possibleLocation).isEmpty())
-                    .filter(possibleLocation -> possibleLocation.distanceSquared(this.getLocation()) <= 1)
-                    .filter(possibleLocation -> possibleLocation.distanceSquared(mate.getLocation()) <= 1)
                     .toList();
 
             if (availableMoves.isEmpty()) {
@@ -208,6 +230,10 @@ public abstract class Human extends AbstractEntity {
 
             newHuman.setLocation(move);
 
+            ZombieSimulation.getInstance()
+                    .getDataCollector()
+                    .addHumansBorn(1);
+
             this.hasInteracted = true;
 
         } else {
@@ -234,6 +260,10 @@ public abstract class Human extends AbstractEntity {
         return maxHealth;
     }
 
+    public void setMaxHealth(double maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
     public Gender getGender() {
         return gender;
     }
@@ -250,8 +280,16 @@ public abstract class Human extends AbstractEntity {
         return agility;
     }
 
+    public void setAgility(double agility) {
+        this.agility = agility;
+    }
+
     public double getStrength() {
         return strength;
+    }
+
+    public void setStrength(double strength) {
+        this.strength = strength;
     }
 
     public boolean hasInteracted() {
@@ -273,6 +311,4 @@ public abstract class Human extends AbstractEntity {
     public void setGetMatedRound(int getMatedRound) {
         this.getMatedRound = getMatedRound;
     }
-
-    public abstract void specialAbility();
 }

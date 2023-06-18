@@ -21,14 +21,14 @@ import java.util.Random;
 
 public abstract class Zombie extends AbstractEntity {
 
-    private static final Random RANDOM = new Random(System.currentTimeMillis());
+    protected static final Random RANDOM = new Random(System.currentTimeMillis());
 
-    private static final NormalDistribution HEALTH_DISTRIBUTION = new NormalDistribution(80, 15);
+    private static final NormalDistribution HEALTH_DISTRIBUTION = new NormalDistribution(100, 20);
     private static final NormalDistribution STRENGTH_DISTRIBUTION = new NormalDistribution(30, 3);
 
     private final Gender gender = RANDOM.nextBoolean() ? Gender.MALE : Gender.FEMALE;
 
-    private final double maxHealth;
+    private double maxHealth;
     private double health;
     private double strength;
     private double agility;
@@ -47,10 +47,14 @@ public abstract class Zombie extends AbstractEntity {
         this.maxHealth = this.health;
 
         this.strength = MathUtils.clamp(STRENGTH_DISTRIBUTION.sample(), 1, 100);
-        this.agility = RANDOM.nextDouble();
-        this.infectionRate = RANDOM.nextDouble();
+        this.agility = RANDOM.nextDouble(0.8);
+        this.infectionRate = RANDOM.nextDouble(0.9, 1.0);
 
         addListener(new EntityInputListener(this));
+
+        ZombieSimulation.getInstance()
+                .getDataCollector()
+                .addZombieData(this);
     }
 
     public Zombie(Integer id, Human fromHuman) {
@@ -66,6 +70,10 @@ public abstract class Zombie extends AbstractEntity {
         this.location = fromHuman.getLocation();
 
         addListener(new EntityInputListener(this));
+
+        ZombieSimulation.getInstance()
+                .getDataCollector()
+                .addZombieData(this);
     }
 
     public Zombie(Integer id, double health, double strength, double agility, double infectionRate) {
@@ -99,23 +107,46 @@ public abstract class Zombie extends AbstractEntity {
                 this.location.y() * getTexture().getHeight());
     }
 
+    public List<Location> getAttackLocations() {
+        List<Location> nearbyLocations = new ArrayList<>();
+
+        nearbyLocations.add(location.add(-1, 1));
+        nearbyLocations.add(location.add(0, 1));
+        nearbyLocations.add(location.add(1, 1));
+
+        nearbyLocations.add(location.add(-1, 0));
+        nearbyLocations.add(location.add(1, 0));
+
+        nearbyLocations.add(location.add(-1, -1));
+        nearbyLocations.add(location.add(0, -1));
+        nearbyLocations.add(location.add(1, -1));
+
+        return nearbyLocations;
+    }
+
+    public List<Location> getMoveLocations() {
+        List<Location> nearbyLocations = new ArrayList<>();
+
+        nearbyLocations.add(location.add(-1, 1));
+        nearbyLocations.add(location.add(0, 1));
+        nearbyLocations.add(location.add(1, 1));
+
+        nearbyLocations.add(location.add(-1, 0));
+        nearbyLocations.add(location.add(1, 0));
+
+        nearbyLocations.add(location.add(-1, -1));
+        nearbyLocations.add(location.add(0, -1));
+        nearbyLocations.add(location.add(1, -1));
+
+        return nearbyLocations;
+    }
+
     @Override
     public void move() {
         if (this.hasInteracted)
             return;
 
-        List<Location> possibleMoves = new ArrayList<>();
-
-        possibleMoves.add(location.add(-1, 1));
-        possibleMoves.add(location.add(0, 1));
-        possibleMoves.add(location.add(1, 1));
-
-        possibleMoves.add(location.add(-1, 0));
-        possibleMoves.add(location.add(1, 0));
-
-        possibleMoves.add(location.add(-1, -1));
-        possibleMoves.add(location.add(0, -1));
-        possibleMoves.add(location.add(1, -1));
+        List<Location> possibleMoves = getMoveLocations();
 
         SimulationArea simulationArea = ZombieSimulation.getInstance().getSimulationArea();
 
@@ -136,22 +167,12 @@ public abstract class Zombie extends AbstractEntity {
         this.hasInteracted = false;
     }
 
+    @Override
     public void interact() {
         if (this.health < this.maxHealth * 0.1)
             return;
 
-        List<Location> nearbyLocations = new ArrayList<>();
-
-        nearbyLocations.add(location.add(-1, 1));
-        nearbyLocations.add(location.add(0, 1));
-        nearbyLocations.add(location.add(1, 1));
-
-        nearbyLocations.add(location.add(-1, 0));
-        nearbyLocations.add(location.add(1, 0));
-
-        nearbyLocations.add(location.add(-1, -1));
-        nearbyLocations.add(location.add(0, -1));
-        nearbyLocations.add(location.add(1, -1));
+        List<Location> nearbyLocations = getAttackLocations();
 
         SimulationArea simulationArea = ZombieSimulation.getInstance().getSimulationArea();
 
@@ -179,14 +200,28 @@ public abstract class Zombie extends AbstractEntity {
         target.setInfected(RANDOM.nextDouble() < this.infectionRate);
     }
 
-    public abstract void specialAbility();
-
     public double getStrength() {
         return strength;
     }
 
+    public void setStrength(double strength) {
+        this.strength = strength;
+    }
+
     public double getAgility() {
         return agility;
+    }
+
+    public void setAgility(double agility) {
+        this.agility = agility;
+    }
+
+    public double getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(double maxHealth) {
+        this.maxHealth = maxHealth;
     }
 
     public double getHealth() {

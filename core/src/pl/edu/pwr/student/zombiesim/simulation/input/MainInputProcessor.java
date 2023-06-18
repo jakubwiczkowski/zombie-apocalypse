@@ -7,6 +7,10 @@ import com.badlogic.gdx.math.MathUtils;
 import pl.edu.pwr.student.zombiesim.ZombieSimulation;
 import pl.edu.pwr.student.zombiesim.simulation.ui.game.GameStage;
 
+/**
+ * Class that takes care of all input management
+ * fo the main screen.
+ */
 public class MainInputProcessor implements InputProcessor {
 
     private final GameStage gameStage;
@@ -19,6 +23,12 @@ public class MainInputProcessor implements InputProcessor {
         this.gameStage = gameStage;
     }
 
+    /**
+     * Manages the start of fast-forward when the space bar
+     * is let go and single round skipping.
+     *
+     * @see ZombieSimulation
+     */
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.SPACE)
@@ -30,6 +40,12 @@ public class MainInputProcessor implements InputProcessor {
         return true;
     }
 
+    /**
+     * Manages the end of fast-forward when the space bar
+     * is let go.
+     *
+     * @see ZombieSimulation
+     */
     @Override
     public boolean keyUp(int keycode) {
         if (keycode == Input.Keys.SPACE)
@@ -43,6 +59,10 @@ public class MainInputProcessor implements InputProcessor {
         return false;
     }
 
+    /**
+     * Specifies when the drag move of the map starts and
+     * saves the initial cursor position.
+     */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         this.isDragging = true;
@@ -51,12 +71,18 @@ public class MainInputProcessor implements InputProcessor {
         return false;
     }
 
+    /**
+     * Specifies when the drag move of the map ends.
+     */
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         this.isDragging = false;
         return false;
     }
 
+    /**
+     * Moves the map around by holding left-click and dragging.
+     */
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if (!this.isDragging)
@@ -82,6 +108,9 @@ public class MainInputProcessor implements InputProcessor {
         return false;
     }
 
+    /**
+     * Manages the zoom that changes while scrolling.
+     */
     @Override
     public boolean scrolled(float amountX, float amountY) {
         if (!(this.gameStage.getCamera() instanceof OrthographicCamera camera))
@@ -102,6 +131,10 @@ public class MainInputProcessor implements InputProcessor {
         return true;
     }
 
+    /**
+     * Method that updates the main camera.
+     * Takes care of zoom and positioning.
+     */
     public void updateCamera() {
         if (!(this.gameStage.getCamera() instanceof OrthographicCamera camera))
             return;
