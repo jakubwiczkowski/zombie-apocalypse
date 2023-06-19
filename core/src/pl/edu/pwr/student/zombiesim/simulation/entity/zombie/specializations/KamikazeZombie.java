@@ -57,6 +57,7 @@ public class KamikazeZombie extends Zombie {
     public String getName() {
         return "KAM";
     }
+
     @Override
     public Texture getTexture() {
         return Textures.ZOMBIE_KAMIKAZE_TEXTURE;

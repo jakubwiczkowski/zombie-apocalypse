@@ -109,10 +109,10 @@ public abstract class Zombie extends AbstractEntity {
     public void draw(Batch batch, float parentAlpha) {
         setBounds(this.location.x() * getTexture().getWidth(),
                 this.location.y() * getTexture().getHeight(),
-                texture.getWidth(),
-                texture.getHeight());
+                getTexture().getWidth(),
+                getTexture().getHeight());
 
-        batch.draw(this.texture,
+        batch.draw(getTexture(),
                 this.location.x() * getTexture().getWidth(),
                 this.location.y() * getTexture().getHeight());
     }
