@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/home/wiczek/Projects/zombie-apocalypse/core</OriginalElement>
+  <nodes>
+    <node x="588.7499999999998" y="107.0">pl.edu.pwr.student.zombiesim.simulation.entity.human.Human</node>
+    <node x="-243.0" y="1166.0">pl.edu.pwr.student.zombiesim.simulation.entity.human.HumanManager</node>
+    <node x="44.99999999999977" y="1166.0">pl.edu.pwr.student.zombiesim.simulation.entity.zombie.ZombieManager</node>
+    <node x="1510.5303030303028" y="159.0">pl.edu.pwr.student.zombiesim.simulation.entity.zombie.Zombie</node>
+    <node x="336.9999999999998" y="1153.0">pl.edu.pwr.student.zombiesim.simulation.entity.human.specializations.WarriorHuman</node>
+    <node x="1014.621212121212" y="-347.5">pl.edu.pwr.student.zombiesim.simulation.map.Location</node>
+    <node x="-243.0" y="1309.0">pl.edu.pwr.student.zombiesim.simulation.map.SimulationArea</node>
+    <node x="805.9999999999998" y="1166.0">pl.edu.pwr.student.zombiesim.simulation.entity.human.specializations.RegularHuman</node>
+    <node x="1396.9999999999998" y="1166.0">pl.edu.pwr.student.zombiesim.simulation.entity.zombie.specializations.RegularZombie</node>
+    <node x="1855.0" y="1153.0">pl.edu.pwr.student.zombiesim.simulation.entity.zombie.specializations.KamikazeZombie</node>
+    <node x="-140.50000000000023" y="457.5">pl.edu.pwr.student.zombiesim.simulation.entity.manager.AbstractEntityManager</node>
+    <node x="716.121212121212" y="-173.0">pl.edu.pwr.student.zombiesim.simulation.entity.AbstractEntity</node>
+    <node x="578.9999999999998" y="1166.0">pl.edu.pwr.student.zombiesim.simulation.entity.human.specializations.StudentHuman</node>
+    <node x="733.621212121212" y="-295.0">pl.edu.pwr.student.zombiesim.simulation.entity.Identifiable</node>
+    <node x="1029.9999999999998" y="1140.0">pl.edu.pwr.student.zombiesim.simulation.entity.human.specializations.ShooterHuman</node>
+    <node x="1624.9999999999998" y="1166.0">pl.edu.pwr.student.zombiesim.simulation.entity.zombie.specializations.ChubbyZombie</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="pl.edu.pwr.student.zombiesim.simulation.entity.human.specializations.WarriorHuman" target="pl.edu.pwr.student.zombiesim.simulation.entity.human.Human" relationship="GENERALIZATION">
+      <point x="0.0" y="-49.0" />
+      <point x="447.9999999999998" y="1115.0" />
+      <point x="795.2499999999998" y="1115.0" />
+      <point x="0.0" y="491.5" />
+    </edge>
+    <edge source="pl.edu.pwr.student.zombiesim.simulation.entity.human.HumanManager" target="pl.edu.pwr.student.zombiesim.simulation.entity.manager.AbstractEntityManager" relationship="GENERALIZATION">
+      <point x="0.0" y="-36.0" />
+      <point x="-109.0" y="1115.0" />
+      <point x="35.99999999999977" y="1115.0" />
+      <point x="0.0" y="141.0" />
+    </edge>
+    <edge source="pl.edu.pwr.student.zombiesim.simulation.entity.human.specializations.RegularHuman" target="pl.edu.pwr.student.zombiesim.simulation.entity.human.Human" relationship="GENERALIZATION">
+      <point x="0.0" y="-36.0" />
+      <point x="907.9999999999998" y="1115.0" />
+      <point x="795.2499999999998" y="1115.0" />
+      <point x="0.0" y="491.5" />
+    </edge>
+    <edge source="pl.edu.pwr.student.zombiesim.simulation.entity.human.specializations.ShooterHuman" target="pl.edu.pwr.student.zombiesim.simulation.entity.human.Human" relationship="GENERALIZATION">
+      <point x="0.0" y="-62.0" />
+      <point x="1203.4999999999998" y="1115.0" />
+      <point x="795.2499999999998" y="1115.0" />
+      <point x="0.0" y="491.5" />
+    </edge>
+    <edge source="pl.edu.pwr.student.zombiesim.simulation.entity.zombie.specializations.RegularZombie" target="pl.edu.pwr.student.zombiesim.simulation.entity.zombie.Zombie" relationship="GENERALIZATION">
+      <point x="0.0" y="-36.0" />
+      <point x="1500.9999999999998" y="1115.0" />
+      <point x="1717.0303030303028" y="1115.0" />
+      <point x="0.0" y="439.5" />
+    </edge>
+    <edge source="pl.edu.pwr.student.zombiesim.simulation.entity.human.specializations.StudentHuman" target="pl.edu.pwr.student.zombiesim.simulation.entity.human.Human" relationship="GENERALIZATION">
+      <point x="0.0" y="-36.0" />
+      <point x="682.4999999999998" y="1115.0" />
+      <point x="795.2499999999998" y="1115.0" />
+      <point x="0.0" y="491.5" />
+    </edge>
+    <edge source="pl.edu.pwr.student.zombiesim.simulation.entity.zombie.specializations.KamikazeZombie" target="pl.edu.pwr.student.zombiesim.simulation.entity.zombie.Zombie" relationship="GENERALIZATION">
+      <point x="0.0" y="-49.0" />
+      <point x="1968.5" y="1115.0" />
+      <point x="1717.0303030303028" y="1115.0" />
+      <point x="0.0" y="439.5" />
+    </edge>
+    <edge source="pl.edu.pwr.student.zombiesim.simulation.entity.zombie.Zombie" target="pl.edu.pwr.student.zombiesim.simulation.entity.AbstractEntity" relationship="GENERALIZATION">
+      <point x="0.0" y="-439.5" />
+      <point x="1717.0303030303028" y="87.0" />
+      <point x="1206.2499999999998" y="87.0" />
+      <point x="1206.2499999999998" y="77.0" />
+      <point x="894.621212121212" y="77.0" />
+      <point x="59.5" y="115.0" />
+    </edge>
+    <edge source="pl.edu.pwr.student.zombiesim.simulation.entity.zombie.specializations.ChubbyZombie" target="pl.edu.pwr.student.zombiesim.simulation.entity.zombie.Zombie" relationship="GENERALIZATION">
+      <point x="0.0" y="-36.0" />
+      <point x="1729.9999999999998" y="1115.0" />
+      <point x="1717.0303030303028" y="1115.0" />
+      <point x="0.0" y="439.5" />
+    </edge>
+    <edge source="pl.edu.pwr.student.zombiesim.simulation.entity.manager.AbstractEntityManager" target="pl.edu.pwr.student.zombiesim.simulation.entity.AbstractEntity" relationship="DEPENDENCY">
+      <point x="0.0" y="-141.0" />
+      <point x="35.99999999999977" y="87.0" />
+      <point x="775.621212121212" y="87.0" />
+      <point x="-59.5" y="115.0" />
+    </edge>
+    <edge source="pl.edu.pwr.student.zombiesim.simulation.entity.AbstractEntity" target="pl.edu.pwr.student.zombiesim.simulation.entity.Identifiable" relationship="REALIZATION">
+      <point x="0.0" y="-115.0" />
+      <point x="0.0" y="36.0" />
+    </edge>
+    <edge source="pl.edu.pwr.student.zombiesim.simulation.entity.human.Human" target="pl.edu.pwr.student.zombiesim.simulation.entity.AbstractEntity" relationship="GENERALIZATION">
+      <point x="0.0" y="-491.5" />
+      <point x="795.2499999999998" y="87.0" />
+      <point x="1206.2499999999998" y="87.0" />
+      <point x="1206.2499999999998" y="77.0" />
+      <point x="894.621212121212" y="77.0" />
+      <point x="59.5" y="115.0" />
+    </edge>
+    <edge source="pl.edu.pwr.student.zombiesim.simulation.entity.zombie.ZombieManager" target="pl.edu.pwr.student.zombiesim.simulation.entity.manager.AbstractEntityManager" relationship="GENERALIZATION">
+      <point x="0.0" y="-36.0" />
+      <point x="180.99999999999977" y="1115.0" />
+      <point x="35.99999999999977" y="1115.0" />
+      <point x="0.0" y="141.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.2801724137931034" showDependencies="false" x="929.5" y="696.0" />
+  <SelectedNodes>
+    <node>pl.edu.pwr.student.zombiesim.simulation.map.Location</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -58,7 +58,7 @@ public abstract class Zombie extends AbstractEntity {
 
         this.strength = MathUtils.clamp(STRENGTH_DISTRIBUTION.sample(), 1, 100);
         this.agility = RANDOM.nextDouble(0.8);
-        this.infectionRate = RANDOM.nextDouble(0.9, 1.0);
+        this.infectionRate = RANDOM.nextDouble(0.4, 0.6);
 
         addListener(new EntityInputListener(this));
 
@@ -83,7 +83,7 @@ public abstract class Zombie extends AbstractEntity {
 
         this.strength = fromHuman.getStrength();
         this.agility = fromHuman.getAgility();
-        this.infectionRate = RANDOM.nextDouble();
+        this.infectionRate = RANDOM.nextDouble(0.4, 0.6);
 
         this.location = fromHuman.getLocation();
 
