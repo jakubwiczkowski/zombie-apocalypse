@@ -1,10 +1,12 @@
 package pl.edu.pwr.student.zombiesim.simulation.entity.zombie.specializations;
 
+import com.badlogic.gdx.graphics.Texture;
 import pl.edu.pwr.student.zombiesim.ZombieSimulation;
 import pl.edu.pwr.student.zombiesim.simulation.entity.human.Human;
 import pl.edu.pwr.student.zombiesim.simulation.entity.zombie.Zombie;
 import pl.edu.pwr.student.zombiesim.simulation.map.Location;
 import pl.edu.pwr.student.zombiesim.simulation.map.SimulationArea;
+import pl.edu.pwr.student.zombiesim.simulation.ui.Textures;
 
 import java.util.List;
 import java.util.Optional;
@@ -54,5 +56,10 @@ public class KamikazeZombie extends Zombie {
     @Override
     public String getName() {
         return "KAM";
+    }
+
+    @Override
+    public Texture getTexture() {
+        return Textures.ZOMBIE_KAMIKAZE_TEXTURE;
     }
 }

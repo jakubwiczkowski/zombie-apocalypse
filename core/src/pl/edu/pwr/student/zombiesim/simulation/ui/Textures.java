@@ -44,6 +44,34 @@ public class Textures {
     public static final Texture HUMAN_WARRIOR_TEXTURE = new Texture(Gdx.files.internal("human/warrior.png"));
 
     /**
+     * Texture used to represent {@link pl.edu.pwr.student.zombiesim.simulation.entity.human.specializations.StudentHuman}
+     *
+     * @see pl.edu.pwr.student.zombiesim.simulation.entity.human.Human
+     */
+    public static final Texture HUMAN_STUDENT_TEXTURE = new Texture(Gdx.files.internal("human/Student.png"));
+
+    /**
+     * Texture used to represent {@link pl.edu.pwr.student.zombiesim.simulation.entity.zombie.specializations.RegularZombie}
+     *
+     * @see pl.edu.pwr.student.zombiesim.simulation.entity.zombie.Zombie
+     */
+    public static final Texture ZOMBIE_MALE_TEXTURE = new Texture(Gdx.files.internal("zombie/Zombie_man.png"));
+
+    /**
+     * Texture used to represent {@link pl.edu.pwr.student.zombiesim.simulation.entity.zombie.specializations.RegularZombie}
+     *
+     * @see pl.edu.pwr.student.zombiesim.simulation.entity.zombie.Zombie
+     */
+    public static final Texture ZOMBIE_FEMALE_TEXTURE = new Texture(Gdx.files.internal("zombie/Zombie_woman.png"));
+
+    /**
+     * Texture used to represent {@link pl.edu.pwr.student.zombiesim.simulation.entity.zombie.specializations.KamikazeZombie}
+     *
+     * @see pl.edu.pwr.student.zombiesim.simulation.entity.zombie.Zombie
+     */
+    public static final Texture ZOMBIE_KAMIKAZE_TEXTURE = new Texture(Gdx.files.internal("zombie/Zombie_kid.png"));
+
+    /**
      * Texture used to represent water on the map
      *
      * @see pl.edu.pwr.student.zombiesim.simulation.map.Ground
