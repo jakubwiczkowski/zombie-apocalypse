@@ -241,116 +241,40 @@ public class DataCollector {
         if (outputted)
             return;
 
-        BufferedWriter humAgWriter = new BufferedWriter(new FileWriter("h_ag.csv", true));
-        BufferedWriter humMhWriter = new BufferedWriter(new FileWriter("h_mh.csv", true));
-        BufferedWriter humStWriter = new BufferedWriter(new FileWriter("h_st.csv", true));
+        BufferedWriter humanWriter = new BufferedWriter(new FileWriter("humans.csv", true));
 
-        if (Gdx.files.internal("h_ag.csv").readString().isEmpty())
-            humAgWriter.write("type,agility\n");
-        if (Gdx.files.internal("h_mh.csv").readString().isEmpty())
-            humMhWriter.write("type,maxhealth\n");
-        if (Gdx.files.internal("h_st.csv").readString().isEmpty())
-            humStWriter.write("type,strength\n");
+        if (Gdx.files.internal("humans.csv").readString().isEmpty())
+            humanWriter.write("type,agility,maxhealth,strength\n");
 
-        humanAgility.forEach(pair -> {
-            try {
-                humAgWriter.append(pair.getFirst())
-                        .append(",")
-                        .append(String.valueOf(pair.getSecond()))
-                        .append("\n");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        int hCount = humanAgility.size();
 
-        humanMaxHealth.forEach(pair -> {
-            try {
-                humMhWriter.append(pair.getFirst())
-                        .append(",")
-                        .append(String.valueOf(pair.getSecond()))
-                        .append("\n");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        for (int idx = 0; idx < hCount; idx++) {
+            humanWriter.append(
+                    humanAgility.get(idx).getFirst() + "," +
+                    humanAgility.get(idx).getSecond() + "," +
+                    humanMaxHealth.get(idx).getSecond() + "," +
+                    humanStrength.get(idx).getSecond() + "\n");
+        }
 
-        humanStrength.forEach(pair -> {
-            try {
-                humStWriter.append(pair.getFirst())
-                        .append(",")
-                        .append(String.valueOf(pair.getSecond()))
-                        .append("\n");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        humanWriter.close();
 
-        humAgWriter.close();
-        humMhWriter.close();
-        humStWriter.close();
+        BufferedWriter zombieWriter = new BufferedWriter(new FileWriter("zombies.csv", true));
 
-        BufferedWriter zomAgWriter = new BufferedWriter(new FileWriter("z_ag.csv", true));
-        BufferedWriter zomMhWriter = new BufferedWriter(new FileWriter("z_mh.csv", true));
-        BufferedWriter zomStWriter = new BufferedWriter(new FileWriter("z_st.csv", true));
-        BufferedWriter zomIrWriter = new BufferedWriter(new FileWriter("z_ir.csv", true));
+        if (Gdx.files.internal("zombies.csv").readString().isEmpty())
+            zombieWriter.write("type,agility,maxhealth,strength,infectionRate\n");
 
-        if (Gdx.files.internal("z_ag.csv").readString().isEmpty())
-            zomAgWriter.write("type,agility\n");
-        if (Gdx.files.internal("z_mh.csv").readString().isEmpty())
-            zomMhWriter.write("type,maxhealth\n");
-        if (Gdx.files.internal("z_st.csv").readString().isEmpty())
-            zomStWriter.write("type,strength\n");
-        if (Gdx.files.internal("z_ir.csv").readString().isEmpty())
-            zomIrWriter.write("type,infectionRate\n");
+        int zCount = zombieAgility.size();
 
-        zombieAgility.forEach(pair -> {
-            try {
-                zomAgWriter.append(pair.getFirst())
-                        .append(",")
-                        .append(String.valueOf(pair.getSecond()))
-                        .append("\n");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        for (int idx = 0; idx < zCount; idx++) {
+            zombieWriter.append(
+                    zombieAgility.get(idx).getFirst() + "," +
+                            zombieAgility.get(idx).getSecond() + "," +
+                            zombieMaxHealth.get(idx).getSecond() + "," +
+                            zombieStrength.get(idx).getSecond() + "," +
+                            zombieInfectionRate.get(idx).getSecond() + "\n");
+        }
 
-        zombieMaxHealth.forEach(pair -> {
-            try {
-                zomMhWriter.append(pair.getFirst())
-                        .append(",")
-                        .append(String.valueOf(pair.getSecond()))
-                        .append("\n");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-        zombieStrength.forEach(pair -> {
-            try {
-                zomStWriter.append(pair.getFirst())
-                        .append(",")
-                        .append(String.valueOf(pair.getSecond()))
-                        .append("\n");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-        zombieInfectionRate.forEach(pair -> {
-            try {
-                zomIrWriter.append(pair.getFirst())
-                        .append(",")
-                        .append(String.valueOf(pair.getSecond()))
-                        .append("\n");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-        zomAgWriter.close();
-        zomMhWriter.close();
-        zomStWriter.close();
-        zomIrWriter.close();
+        zombieWriter.close();
 
         BufferedWriter overallWriter = new BufferedWriter(new FileWriter("overall.csv", true));
 
