@@ -82,10 +82,8 @@ public class ZombieSimulation extends Game {
             throw new RuntimeException(e);
         }
 
-        this.gameStage.getBatch().dispose();
         this.gameStage.dispose();
 
-        this.entityHoverStage.getBatch().dispose();
         this.entityHoverStage.dispose();
 
         Textures.HUMAN_MALE_TEXTURE.dispose();
