@@ -22,10 +22,6 @@ public class ChubbyZombie extends Zombie {
         setHealth(getMaxHealth());
     }
 
-    public ChubbyZombie(Integer id, double health, double strength, double agility, double infectionRate) {
-        super(id, health, strength,agility, infectionRate);
-    }
-
     @Override
     public String getName() {
         return "CHU";

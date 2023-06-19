@@ -23,10 +23,6 @@ public class KamikazeZombie extends Zombie {
         super(id, fromHuman);
     }
 
-    public KamikazeZombie(Integer id, double health, double strength, double agility, double infectionRate) {
-        super(id, health, strength,agility, infectionRate);
-    }
-
     @Override
     public void interact() {
         List<Location> nearbyLocations = getAttackLocations();

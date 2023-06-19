@@ -23,10 +23,6 @@ public class StudentHuman extends Human {
         setAgility(MathUtils.clamp(getAgility() * 1.2, 0, 0.95));
     }
 
-    public StudentHuman(Integer id, double health, double strength, double agility) {
-        super(id, health, strength, agility);
-    }
-
     @Override
     public String getName() {
         return "STU";

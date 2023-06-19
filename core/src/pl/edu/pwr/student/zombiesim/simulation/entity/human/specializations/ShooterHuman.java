@@ -1,7 +1,9 @@
 package pl.edu.pwr.student.zombiesim.simulation.entity.human.specializations;
 
+import com.badlogic.gdx.graphics.Texture;
 import pl.edu.pwr.student.zombiesim.simulation.entity.human.Human;
 import pl.edu.pwr.student.zombiesim.simulation.map.Location;
+import pl.edu.pwr.student.zombiesim.simulation.ui.Textures;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +19,6 @@ public class ShooterHuman extends Human {
 
     public ShooterHuman(Integer id, Human parentOne, Human parentTwo) {
         super(id, parentOne, parentTwo);
-    }
-
-    public ShooterHuman(Integer id, double health, double strength, double agility) {
-        super(id, health, strength, agility);
     }
 
     @Override
@@ -61,5 +59,10 @@ public class ShooterHuman extends Human {
     @Override
     public String getName() {
         return "SHO";
+    }
+
+    @Override
+    public Texture getTexture() {
+        return Textures.HUMAN_SHOOTER_TEXTURE;
     }
 }

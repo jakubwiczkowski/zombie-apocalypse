@@ -121,6 +121,12 @@ public class SimulationArea {
         return Optional.of(this.ground[location.x()][location.y()]);
     }
 
+    /**
+     * Sets the type of ground at specified coordinates.
+     *
+     * @param location {@link Location} of the ground
+     * @param ground   type of {@link Ground} to be set
+     */
     public void setGroundAt(Location location, Ground ground) {
         if ((location.x() < 0 || location.x() >= this.simulationSizeX) ||
                 (location.y() < 0 || location.y() >= this.simulationSizeY))
