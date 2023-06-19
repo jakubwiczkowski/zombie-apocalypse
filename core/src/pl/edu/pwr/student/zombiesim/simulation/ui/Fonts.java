@@ -24,4 +24,7 @@ public class Fonts {
         MAIN_FONT = generator.generateFont(parameter);
         generator.dispose();
     }
+
+    private Fonts(){
+    }
 }

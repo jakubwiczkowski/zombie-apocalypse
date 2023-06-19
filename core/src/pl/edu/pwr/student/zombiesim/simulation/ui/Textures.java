@@ -62,4 +62,7 @@ public class Textures {
      */
     public static final Texture GRASS_ALT_TEXTURE = new Texture(Gdx.files.internal("ground_alternative.png"));
 
+    private Textures(){
+    }
+
 }

@@ -41,7 +41,7 @@ public class ZombieSimulation extends Game {
     public void create() {
         INSTANCE = this;
 
-        this.simulationArea = new SimulationArea(30, 30);
+        this.simulationArea = new SimulationArea(Settings.MAP_SIZE_WIDTH, Settings.MAP_SIZE_HEIGHT);
 
         this.gameStage = new GameStage();
         this.gameStage.getMainInputProcessor().updateCamera();
@@ -166,6 +166,11 @@ public class ZombieSimulation extends Game {
         this.fastForward = fastForward;
     }
 
+    /**
+     * Method that returns simulation's {@link DataCollector} object.
+     *
+     * @return {@link DataCollector} instance
+     */
     public DataCollector getDataCollector() {
         return dataCollector;
     }

@@ -1,5 +1,6 @@
 package pl.edu.pwr.student.zombiesim.simulation.map;
 
+import pl.edu.pwr.student.zombiesim.Settings;
 import pl.edu.pwr.student.zombiesim.ZombieSimulation;
 import pl.edu.pwr.student.zombiesim.simulation.entity.AbstractEntity;
 import pl.edu.pwr.student.zombiesim.simulation.entity.human.Human;
@@ -60,7 +61,7 @@ public class SimulationArea {
             }
         }
 
-        populate(30, 30, this.groundLocations);
+        populate(Settings.HUMAN_COUNT, Settings.ZOMBIE_COUNT, this.groundLocations);
     }
 
     /**
@@ -175,11 +176,11 @@ public class SimulationArea {
             int zombieType = random.nextInt(3);
 
             if (zombieType == 0)
-                zombie = new ChubbyZombie(this.getHumanManager().getNextId());
+                zombie = new ChubbyZombie(this.getZombieManager().getNextId());
             else if (zombieType == 1)
-                zombie = new KamikazeZombie(this.getHumanManager().getNextId());
+                zombie = new KamikazeZombie(this.getZombieManager().getNextId());
             else
-                zombie = new RegularZombie(this.getHumanManager().getNextId());
+                zombie = new RegularZombie(this.getZombieManager().getNextId());
 
             this.getZombieManager().addEntity(zombie);
             zombie.setLocation(groundLocations.get(idx));
@@ -236,11 +237,11 @@ public class SimulationArea {
             int zombieType = random.nextInt(3);
 
             if (zombieType == 0)
-                return new ChubbyZombie(this.getHumanManager().getNextId(), human);
+                return new ChubbyZombie(this.getZombieManager().getNextId(), human);
             else if (zombieType == 1)
-                return new KamikazeZombie(this.getHumanManager().getNextId(), human);
+                return new KamikazeZombie(this.getZombieManager().getNextId(), human);
             else
-                return new RegularZombie(this.getHumanManager().getNextId(), human);
+                return new RegularZombie(this.getZombieManager().getNextId(), human);
         }).forEach(zombie -> {
             this.zombieManager.addEntity(zombie);
             ZombieSimulation.getInstance().getGameStage().getEntityGroup().addActor(zombie);
