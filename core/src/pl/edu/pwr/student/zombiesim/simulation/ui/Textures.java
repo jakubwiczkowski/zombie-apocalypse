@@ -3,6 +3,8 @@ package pl.edu.pwr.student.zombiesim.simulation.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
+import java.util.Random;
+
 /**
  * Class used to store all textures that are used in the simulation
  */
