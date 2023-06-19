@@ -1,8 +1,10 @@
 package pl.edu.pwr.student.zombiesim.simulation.entity.human.specializations;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import pl.edu.pwr.student.zombiesim.simulation.entity.human.Human;
 import pl.edu.pwr.student.zombiesim.simulation.entity.zombie.Zombie;
+import pl.edu.pwr.student.zombiesim.simulation.ui.Textures;
 
 /**
  * {@link StudentHuman} is a type of {@link Human} that
@@ -27,4 +29,10 @@ public class StudentHuman extends Human {
     public String getName() {
         return "STU";
     }
+
+    @Override
+    public Texture getTexture() {
+        return Textures.HUMAN_STUDENT_TEXTURE;
+    }
+
 }

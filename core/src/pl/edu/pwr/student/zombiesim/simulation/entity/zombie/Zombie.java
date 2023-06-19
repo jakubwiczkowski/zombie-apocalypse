@@ -32,13 +32,14 @@ public abstract class Zombie extends AbstractEntity {
 
     private final Gender gender = RANDOM.nextBoolean() ? Gender.MALE : Gender.FEMALE;
 
+
     private double maxHealth;
     private double health;
     private double strength;
     private double agility;
     private double infectionRate;
 
-    private final Texture texture = Textures.PLACEHOLDER_TEXTURE;
+    private final Texture texture = gender == Gender.MALE ? Textures.ZOMBIE_MALE_TEXTURE : Textures.ZOMBIE_FEMALE_TEXTURE;
 
     private Location location = new Location(0, 0);
 
