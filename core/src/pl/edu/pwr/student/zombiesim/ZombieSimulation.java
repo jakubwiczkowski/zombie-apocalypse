@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import pl.edu.pwr.student.zombiesim.simulation.data.DataCollector;
 import pl.edu.pwr.student.zombiesim.simulation.map.Ground;
+import pl.edu.pwr.student.zombiesim.simulation.map.Location;
 import pl.edu.pwr.student.zombiesim.simulation.map.SimulationArea;
 import pl.edu.pwr.student.zombiesim.simulation.ui.Fonts;
 import pl.edu.pwr.student.zombiesim.simulation.ui.Textures;
@@ -131,6 +132,27 @@ public class ZombieSimulation extends Game {
     public void nextRound() {
         if (this.simulationArea.getHumanManager().getEntities().isEmpty() ||
                 this.simulationArea.getZombieManager().getEntities().isEmpty()) {
+            dataCollector.setFinalHumanCount(
+                    this.simulationArea.getHumanManager().getEntities().size());
+
+            dataCollector.setFinalZombieCount(
+                    this.simulationArea.getZombieManager().getEntities().size());
+
+            int waterCount = 0;
+            int groundCount = 0;
+
+            for (int x = 0; x < this.simulationArea.getSimulationSizeX(); x++) {
+                for (int y = 0; y < this.simulationArea.getSimulationSizeY(); y++) {
+                    Ground ground = this.simulationArea.getGroundAt(new Location(x, y)).get();
+
+                    if (ground == Ground.GRASS) groundCount++;
+                    if (ground == Ground.WATER) waterCount++;
+                }
+            }
+
+            dataCollector.setGroundCount(groundCount);
+            dataCollector.setWaterCount(waterCount);
+
             try {
                 dataCollector.writeData();
             } catch (IOException e) {
