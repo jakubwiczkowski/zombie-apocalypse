@@ -16,10 +16,6 @@ public class RegularZombie extends Zombie {
         super(id, fromHuman);
     }
 
-    public RegularZombie(Integer id, double health, double strength, double agility, double infectionRate) {
-        super(id, health, strength,agility, infectionRate);
-    }
-
     @Override
     public String getName() {
         return "REG";

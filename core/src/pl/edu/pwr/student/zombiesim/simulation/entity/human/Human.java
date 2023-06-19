@@ -23,6 +23,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+/**
+ * One of 2 base entities of the simulation. All
+ * subtypes of {@link Human} extend this class.
+ */
 public abstract class Human extends AbstractEntity {
 
     private static final Random RANDOM = new Random(System.currentTimeMillis());
@@ -45,6 +49,12 @@ public abstract class Human extends AbstractEntity {
     private boolean hasInteracted = false;
     private int getMatedRound = 0;
 
+    /**
+     * Default constructor, that randomizes all
+     * statistics upon creation.
+     *
+     * @param id unique id for this {@link Human}
+     */
     public Human(Integer id) {
         super(id);
 
@@ -61,6 +71,15 @@ public abstract class Human extends AbstractEntity {
                 .addHumanData(this);
     }
 
+    /**
+     * Constructor used when a {@link Human} is created
+     * by being born from two other {@link Human}s.
+     * Derived statistics are an average from both parents.
+     *
+     * @param id        unique id for this {@link Human}
+     * @param parentOne first {@link Human} parent
+     * @param parentTwo second {@link Human} parent
+     */
     public Human(Integer id, Human parentOne, Human parentTwo) {
         super(id);
 
@@ -75,14 +94,6 @@ public abstract class Human extends AbstractEntity {
         ZombieSimulation.getInstance()
                 .getDataCollector()
                 .addHumanData(this);
-    }
-
-    public Human(Integer id, double health, double strength, double agility) {
-        this(id);
-
-        this.health = health;
-        this.strength = strength;
-        this.agility = agility;
     }
 
     @Override
@@ -102,11 +113,17 @@ public abstract class Human extends AbstractEntity {
                 texture.getWidth(),
                 texture.getHeight());
 
-        batch.draw(this.texture,
+        batch.draw(getTexture(),
                 this.location.x() * getTexture().getWidth(),
                 this.location.y() * getTexture().getHeight());
     }
 
+    /**
+     * Method that returns the locations that this
+     * {@link Human} can potentially attack.
+     *
+     * @return all available attack locations
+     */
     public List<Location> getAttackLocations() {
         List<Location> nearbyLocations = new ArrayList<>();
 
@@ -124,6 +141,12 @@ public abstract class Human extends AbstractEntity {
         return nearbyLocations;
     }
 
+    /**
+     * Method that returns the locations that this
+     * {@link Human} can potentially move to.
+     *
+     * @return all available move locations
+     */
     public List<Location> getMoveLocations() {
         List<Location> nearbyLocations = new ArrayList<>();
 

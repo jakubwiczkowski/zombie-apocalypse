@@ -11,10 +11,6 @@ public class RegularHuman extends Human {
         super(id);
     }
 
-    public RegularHuman(Integer id, double health, double strength, double agility) {
-        super(id, health, strength, agility);
-    }
-
     public RegularHuman(Integer id, Human parentOne, Human parentTwo) {
         super(id, parentOne, parentTwo);
     }

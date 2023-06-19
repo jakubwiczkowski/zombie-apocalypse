@@ -20,10 +20,6 @@ public class WarriorHuman extends Human {
         setStrength(getStrength() * 1.2);
     }
 
-    public WarriorHuman(Integer id, double health, double strength, double agility) {
-        super(id, health, strength, agility);
-    }
-
     @Override
     public String getName() {
         return "WAR";

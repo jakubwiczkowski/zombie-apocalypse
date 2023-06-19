@@ -19,6 +19,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+/**
+ * One of 2 base entities of the simulation. All
+ * subtypes of {@link Zombie} extend this class.
+ */
 public abstract class Zombie extends AbstractEntity {
 
     protected static final Random RANDOM = new Random(System.currentTimeMillis());
@@ -40,6 +44,12 @@ public abstract class Zombie extends AbstractEntity {
 
     private boolean hasInteracted = false;
 
+    /**
+     * Default constructor, that randomizes all
+     * statistics upon creation.
+     *
+     * @param id unique id for this {@link Zombie}
+     */
     public Zombie(Integer id) {
         super(id);
 
@@ -57,6 +67,14 @@ public abstract class Zombie extends AbstractEntity {
                 .addZombieData(this);
     }
 
+    /**
+     * Constructor that creates a {@link Zombie} from
+     * infected {@link Human}. All {@link Human} statistics
+     * are inherited.
+     *
+     * @param id        unique id for this {@link Zombie}
+     * @param fromHuman {@link Human} object that statistics are being taken from
+     */
     public Zombie(Integer id, Human fromHuman) {
         super(id);
 
@@ -74,15 +92,6 @@ public abstract class Zombie extends AbstractEntity {
         ZombieSimulation.getInstance()
                 .getDataCollector()
                 .addZombieData(this);
-    }
-
-    public Zombie(Integer id, double health, double strength, double agility, double infectionRate) {
-        this(id);
-
-        this.health = health;
-        this.strength =  strength;
-        this.agility = agility;
-        this.infectionRate = infectionRate;
     }
 
     @Override
@@ -107,6 +116,12 @@ public abstract class Zombie extends AbstractEntity {
                 this.location.y() * getTexture().getHeight());
     }
 
+    /**
+     * Method that returns the locations that this
+     * {@link Zombie} can potentially attack.
+     *
+     * @return all available attack locations
+     */
     public List<Location> getAttackLocations() {
         List<Location> nearbyLocations = new ArrayList<>();
 
@@ -124,6 +139,12 @@ public abstract class Zombie extends AbstractEntity {
         return nearbyLocations;
     }
 
+    /**
+     * Method that returns the locations that this
+     * {@link Zombie} can potentially move to.
+     *
+     * @return all available move locations
+     */
     public List<Location> getMoveLocations() {
         List<Location> nearbyLocations = new ArrayList<>();
 

@@ -1,12 +1,15 @@
 package pl.edu.pwr.student.zombiesim.simulation.ui.game;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import pl.edu.pwr.student.zombiesim.ZombieSimulation;
 import pl.edu.pwr.student.zombiesim.simulation.map.Ground;
 import pl.edu.pwr.student.zombiesim.simulation.map.Location;
 
+/**
+ * Input listener for when the user wants to change
+ * the type of ground on already generated map.
+ */
 public class GroundInputListener extends InputListener {
 
     private final GroundActor groundActor;

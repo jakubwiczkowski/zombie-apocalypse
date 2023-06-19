@@ -2,6 +2,7 @@ package pl.edu.pwr.student.zombiesim.simulation.ui.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import pl.edu.pwr.student.zombiesim.simulation.map.Ground;
 import pl.edu.pwr.student.zombiesim.simulation.map.Location;
@@ -30,7 +31,7 @@ public class GroundActor extends Actor {
 
         this.location = location;
 
-        this.texture = ground == Ground.GRASS ? Textures.GRASS_TEXTURE : Textures.WATER_TEXTURE;
+        setGround(ground);
 
         addListener(new GroundInputListener(this));
     }
@@ -44,7 +45,17 @@ public class GroundActor extends Actor {
 
     public void setGround(Ground ground) {
         this.ground = ground;
-        this.texture = ground == Ground.GRASS ? Textures.GRASS_TEXTURE : Textures.WATER_TEXTURE;
+
+        if (ground == Ground.WATER)
+            this.texture = Textures.WATER_TEXTURE;
+        else {
+            int random = MathUtils.random(10);
+
+            if (random == 0)
+                this.texture = Textures.GRASS_ALT_TEXTURE;
+            else
+                this.texture = Textures.GRASS_TEXTURE;
+        }
     }
 
     public Ground getGround() {
