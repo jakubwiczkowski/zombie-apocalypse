@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import pl.edu.pwr.student.zombiesim.simulation.entity.human.specializations.ShooterHuman;
 
+import java.util.Random;
+
 /**
  * Class used to store all textures that are used in the simulation
  */
