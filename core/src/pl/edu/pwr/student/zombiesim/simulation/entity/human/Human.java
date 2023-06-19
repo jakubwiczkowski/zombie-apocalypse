@@ -201,7 +201,7 @@ public abstract class Human extends AbstractEntity {
             if (ZombieSimulation.getInstance().getRound() - this.getMatedRound < 100)
                 return;
 
-            if (RANDOM.nextDouble() >= 0.02) // 1% szansy na rozmnozenie
+            if (RANDOM.nextDouble() >= 0.01) // 1% szansy na rozmnozenie
                 return;
 
             Optional<Human> possibleMate = getMoveLocations().stream()
