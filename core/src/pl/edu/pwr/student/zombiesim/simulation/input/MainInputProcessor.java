@@ -39,6 +39,9 @@ public class MainInputProcessor implements InputProcessor {
         if (keycode == Input.Keys.SPACE)
             ZombieSimulation.getInstance().setFastForward(true);
 
+        if (keycode == Input.Keys.ENTER)
+            ZombieSimulation.getInstance().setFastForward(!ZombieSimulation.getInstance().isFastForward());
+
         if (keycode == Input.Keys.TAB)
             ZombieSimulation.getInstance().nextRound();
 

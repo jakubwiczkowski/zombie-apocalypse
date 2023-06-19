@@ -189,6 +189,15 @@ public class ZombieSimulation extends Game {
     }
 
     /**
+     * Method used to check if fast-forward is enabled.
+     *
+     * @return true if enabled, false if disabled
+     */
+    public boolean isFastForward() {
+        return fastForward;
+    }
+
+    /**
      * Method that returns simulation's {@link DataCollector} object.
      *
      * @return {@link DataCollector} instance
