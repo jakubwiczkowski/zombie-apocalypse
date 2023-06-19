@@ -42,7 +42,7 @@ public abstract class Human extends AbstractEntity {
 
     private boolean isInfected = false;
 
-    private final Texture texture = Textures.HUMAN_TEXTURE;
+    private final Texture texture = gender == Gender.MALE ? Textures.HUMAN_MALE_TEXTURE : Textures.HUMAN_FEMALE_TEXTURE;
 
     private Location location = new Location(0, 0);
 

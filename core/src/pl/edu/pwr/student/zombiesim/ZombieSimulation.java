@@ -87,9 +87,16 @@ public class ZombieSimulation extends Game {
         this.entityHoverStage.getBatch().dispose();
         this.entityHoverStage.dispose();
 
-        Textures.HUMAN_TEXTURE.dispose();
+        Textures.HUMAN_MALE_TEXTURE.dispose();
+        Textures.HUMAN_FEMALE_TEXTURE.dispose();
+        Textures.HUMAN_SHOOTER_TEXTURE.dispose();
+        Textures.HUMAN_WARRIOR_TEXTURE.dispose();
+
         Textures.WATER_TEXTURE.dispose();
         Textures.GRASS_TEXTURE.dispose();
+        Textures.GRASS_ALT_TEXTURE.dispose();
+
+        Textures.PLACEHOLDER_TEXTURE.dispose();
 
         Fonts.MAIN_FONT.dispose();
     }

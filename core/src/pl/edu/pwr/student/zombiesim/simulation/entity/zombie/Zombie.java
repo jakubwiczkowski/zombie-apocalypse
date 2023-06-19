@@ -38,7 +38,7 @@ public abstract class Zombie extends AbstractEntity {
     private double agility;
     private double infectionRate;
 
-    private final Texture texture = Textures.HUMAN_TEXTURE;
+    private final Texture texture = Textures.PLACEHOLDER_TEXTURE;
 
     private Location location = new Location(0, 0);
 
