@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import org.apache.commons.math3.distribution.NormalDistribution;
+import pl.edu.pwr.student.zombiesim.Settings;
 import pl.edu.pwr.student.zombiesim.ZombieSimulation;
 import pl.edu.pwr.student.zombiesim.simulation.entity.AbstractEntity;
 import pl.edu.pwr.student.zombiesim.simulation.entity.EntityInputListener;
@@ -31,8 +32,8 @@ public abstract class Human extends AbstractEntity {
 
     private static final Random RANDOM = new Random(System.currentTimeMillis());
 
-    private static final NormalDistribution HEALTH_DISTRIBUTION = new NormalDistribution(100, 20);
-    private static final NormalDistribution STRENGTH_DISTRIBUTION = new NormalDistribution(30, 3);
+    private static final NormalDistribution HEALTH_DISTRIBUTION = new NormalDistribution(Settings.HUMAN_HEALTH_MEAN, Settings.HUMAN_HEALTH_VARIANCE);
+    private static final NormalDistribution STRENGTH_DISTRIBUTION = new NormalDistribution(Settings.HUMAN_STRENGTH_MEAN, Settings.HUMAN_STRENGTH_VARIANCE);
 
     private final Gender gender = RANDOM.nextBoolean() ? Gender.MALE : Gender.FEMALE;
     private double maxHealth;
@@ -58,11 +59,11 @@ public abstract class Human extends AbstractEntity {
     public Human(Integer id) {
         super(id);
 
-        this.health = MathUtils.clamp(HEALTH_DISTRIBUTION.sample(), 10, 200);
+        this.health = MathUtils.clamp(HEALTH_DISTRIBUTION.sample(), Settings.HUMAN_HEALTH_MIN, Settings.HUMAN_HEALTH_MAX);
         this.maxHealth = this.health;
 
-        this.strength = MathUtils.clamp(STRENGTH_DISTRIBUTION.sample(), 1, 100);
-        this.agility = RANDOM.nextDouble(0.8);
+        this.strength = MathUtils.clamp(STRENGTH_DISTRIBUTION.sample(), Settings.HUMAN_STRENGTH_MIN, Settings.HUMAN_STRENGTH_MAX);
+        this.agility = RANDOM.nextDouble(Settings.HUMAN_AGILITY_MAX);
 
         addListener(new EntityInputListener(this));
 
@@ -187,6 +188,9 @@ public abstract class Human extends AbstractEntity {
 
     @Override
     public void interact() {
+        if (this.hasInteracted)
+            return;
+
         List<Location> nearbyLocations = getAttackLocations();
 
         SimulationArea simulationArea = ZombieSimulation.getInstance().getSimulationArea();
@@ -198,17 +202,17 @@ public abstract class Human extends AbstractEntity {
                 .toList();
 
         if (possibleTargets.isEmpty()) {
-            if (ZombieSimulation.getInstance().getRound() - this.getMatedRound < 100)
+            if (ZombieSimulation.getInstance().getRound() - this.getMatedRound < Settings.HUMAN_PREGNANCY_ROUNDS)
                 return;
 
-            if (RANDOM.nextDouble() >= 0.01) // 1% szansy na rozmnozenie
+            if (RANDOM.nextDouble() >= Settings.HUMAN_PREGNANCY_CHANCE) // 1% szansy na rozmnozenie
                 return;
 
             Optional<Human> possibleMate = getMoveLocations().stream()
                     .map(location -> simulationArea.getHumanManager().getAtLocation(location))
                     .filter(Optional::isPresent)
                     .map(Optional::get)
-                    .filter(human -> ZombieSimulation.getInstance().getRound() - human.getGetMatedRound() > 100)
+                    .filter(human -> ZombieSimulation.getInstance().getRound() - human.getGetMatedRound() > Settings.HUMAN_PREGNANCY_ROUNDS)
                     .filter(human -> human.getGender() != this.gender)
                     .findFirst();
 

@@ -48,13 +48,13 @@ public class SimulationArea {
 
         this.ground = new Ground[simulationSizeX][simulationSizeY];
 
-        float[][] noise = PerlinNoiseGenerator.generatePerlinNoise(this.simulationSizeX, this.simulationSizeY, 4);
+        float[][] noise = PerlinNoiseGenerator.generatePerlinNoise(this.simulationSizeX, this.simulationSizeY, Settings.MAP_OCTAVES);
 
         this.groundLocations = new ArrayList<>();
 
         for (int i = 0; i < this.simulationSizeX; i++) {
             for (int j = 0; j < this.simulationSizeY; j++) {
-                ground[i][j] = noise[i][j] >= 0.4 ? Ground.GRASS : Ground.WATER;
+                ground[i][j] = noise[i][j] >= Settings.MAP_MIN_FOR_GROUND ? Ground.GRASS : Ground.WATER;
 
                 if (ground[i][j] == Ground.GRASS)
                     this.groundLocations.add(new Location(i, j));

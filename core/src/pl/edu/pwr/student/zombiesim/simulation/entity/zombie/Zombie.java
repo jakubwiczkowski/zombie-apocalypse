@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import org.apache.commons.math3.distribution.NormalDistribution;
+import pl.edu.pwr.student.zombiesim.Settings;
 import pl.edu.pwr.student.zombiesim.ZombieSimulation;
 import pl.edu.pwr.student.zombiesim.simulation.entity.AbstractEntity;
 import pl.edu.pwr.student.zombiesim.simulation.entity.EntityInputListener;
@@ -27,8 +28,8 @@ public abstract class Zombie extends AbstractEntity {
 
     protected static final Random RANDOM = new Random(System.currentTimeMillis());
 
-    private static final NormalDistribution HEALTH_DISTRIBUTION = new NormalDistribution(100, 20);
-    private static final NormalDistribution STRENGTH_DISTRIBUTION = new NormalDistribution(30, 3);
+    private static final NormalDistribution HEALTH_DISTRIBUTION = new NormalDistribution(Settings.ZOMBIE_HEALTH_MEAN, Settings.ZOMBIE_HEALTH_VARIANCE);
+    private static final NormalDistribution STRENGTH_DISTRIBUTION = new NormalDistribution(Settings.ZOMBIE_STRENGTH_MEAN, Settings.ZOMBIE_STRENGTH_VARIANCE);
 
     private final Gender gender = RANDOM.nextBoolean() ? Gender.MALE : Gender.FEMALE;
 
@@ -53,12 +54,12 @@ public abstract class Zombie extends AbstractEntity {
     public Zombie(Integer id) {
         super(id);
 
-        this.health = MathUtils.clamp(HEALTH_DISTRIBUTION.sample(), 10, 200);
+        this.health = MathUtils.clamp(HEALTH_DISTRIBUTION.sample(), Settings.ZOMBIE_HEALTH_MIN, Settings.ZOMBIE_HEALTH_MAX);
         this.maxHealth = this.health;
 
-        this.strength = MathUtils.clamp(STRENGTH_DISTRIBUTION.sample(), 1, 100);
-        this.agility = RANDOM.nextDouble(0.8);
-        this.infectionRate = RANDOM.nextDouble(0.4, 0.6);
+        this.strength = MathUtils.clamp(STRENGTH_DISTRIBUTION.sample(), Settings.ZOMBIE_STRENGTH_MIN, Settings.ZOMBIE_STRENGTH_MAX);
+        this.agility = RANDOM.nextDouble(Settings.ZOMBIE_AGILITY_MAX);
+        this.infectionRate = RANDOM.nextDouble(Settings.ZOMBIE_INFECTIONRATE_MIN, Settings.ZOMBIE_INFECTIONRATE_MAX);
 
         addListener(new EntityInputListener(this));
 
@@ -83,7 +84,7 @@ public abstract class Zombie extends AbstractEntity {
 
         this.strength = fromHuman.getStrength();
         this.agility = fromHuman.getAgility();
-        this.infectionRate = RANDOM.nextDouble(0.4, 0.6);
+        this.infectionRate = RANDOM.nextDouble(Settings.ZOMBIE_INFECTIONRATE_MIN, Settings.ZOMBIE_INFECTIONRATE_MAX);
 
         this.location = fromHuman.getLocation();
 
@@ -190,9 +191,6 @@ public abstract class Zombie extends AbstractEntity {
 
     @Override
     public void interact() {
-        if (this.health < this.maxHealth * 0.1)
-            return;
-
         List<Location> nearbyLocations = getAttackLocations();
 
         SimulationArea simulationArea = ZombieSimulation.getInstance().getSimulationArea();
