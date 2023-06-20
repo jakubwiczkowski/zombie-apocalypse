@@ -55,10 +55,17 @@ project(":core") {
     apply plugin: "java-library"
 
     dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
         api group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
         api "de.articdive:jnoise-pipeline:4.0.0"
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+    }
+
+    test {
+        useJUnitPlatform()
     }
 }

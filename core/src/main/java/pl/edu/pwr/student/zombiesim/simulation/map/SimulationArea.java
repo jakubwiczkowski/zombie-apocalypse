@@ -60,8 +60,6 @@ public class SimulationArea {
                     this.groundLocations.add(new Location(i, j));
             }
         }
-
-        populate(Settings.HUMAN_COUNT, Settings.ZOMBIE_COUNT, this.groundLocations);
     }
 
     /**
@@ -137,6 +135,15 @@ public class SimulationArea {
     }
 
     /**
+     * Method that returns {@link List} of locations that are not {@link Ground#WATER}
+     *
+     * @return {@link List} of locations that are not {@link Ground#WATER}
+     */
+    public List<Location> getGroundLocations() {
+        return groundLocations;
+    }
+
+    /**
      * Populates the simulation map with {@link Human}s
      * and {@link Zombie}s.
      *
@@ -144,7 +151,7 @@ public class SimulationArea {
      * @param zombieCount     number of {@link Zombie}s to spawn
      * @param groundLocations available spawn locations
      */
-    private void populate(int humanCount, int zombieCount, List<Location> groundLocations) {
+    public void populate(int humanCount, int zombieCount, List<Location> groundLocations) {
         if (humanCount + zombieCount > groundLocations.size())
             return;
 

@@ -43,6 +43,7 @@ public class ZombieSimulation extends Game {
         INSTANCE = this;
 
         this.simulationArea = new SimulationArea(Settings.MAP_SIZE_WIDTH, Settings.MAP_SIZE_HEIGHT);
+        this.simulationArea.populate(Settings.HUMAN_COUNT, Settings.ZOMBIE_COUNT, this.simulationArea.getGroundLocations());
 
         this.gameStage = new GameStage();
         this.gameStage.getMainInputProcessor().updateCamera();
